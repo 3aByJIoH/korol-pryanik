@@ -1,106 +1,170 @@
+/* Палитра взята из логотипа: глазурь, мёд, шоколад, тесто */
 :root{
-  --bg:#f7efe3; --card:#fffaf2; --ink:#3a2418; --soft:#7a5a45; --line:#e6d4bd;
-  --honey:#c98a3a; --berry:#8e2f3c; --berry-d:#74242f; --wa:#1fa855;
-  --serif: Georgia, "Times New Roman", serif;
-  --sans: "Segoe UI", -apple-system, Roboto, Arial, sans-serif;
+  --icing:#FFFCF8;      /* фон страницы = белая глазурь логотипа */
+  --dough:#EBD3B2;      /* тесто */
+  --dough-2:#F6E8D4;    /* светлое тесто: фон тихих секций */
+  --honey:#C2822F;      /* «КОРОЛЕВСКИЙ» */
+  --honey-d:#9C6522;
+  --choc:#3E2318;       /* «пряник» прописью */
+  --choc-2:#5A3524;
+  --soft:#7A5B47;
+  --line:#E8D6BF;
+  --wa:#1F9D55;
+  --display:"Forum", "Times New Roman", Georgia, serif;
+  --text:"Golos Text", "Segoe UI", -apple-system, Roboto, Arial, sans-serif;
+  --ease:cubic-bezier(.2,.7,.2,1);
 }
 *{box-sizing:border-box}
 [hidden]{display:none!important}
 html{scroll-behavior:smooth}
-body{margin:0;background:var(--bg);color:var(--ink);font:400 17px/1.55 var(--sans);-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--icing);color:var(--choc);font:400 17px/1.6 var(--text);-webkit-text-size-adjust:100%}
 img{max-width:100%;display:block}
-a{color:var(--berry)}
-h1,h2,h3{font-family:var(--serif);font-weight:700;line-height:1.1;margin:0}
-h2{font-size:clamp(28px,6vw,40px);margin-bottom:18px}
+a{color:var(--honey-d)}
+:focus-visible{outline:3px solid var(--honey);outline-offset:3px;border-radius:6px}
+h1,h2,h3{font-family:var(--display);font-weight:400;line-height:1.05;margin:0;letter-spacing:.005em}
+h2{font-size:clamp(32px,6.4vw,46px);margin-bottom:20px}
 .muted{color:var(--soft)} .small{font-size:13px}
-main>section{max-width:1080px;margin:0 auto;padding:44px 16px}
+main>section{max-width:1080px;margin:0 auto;padding:48px 16px}
 
-.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;background:var(--berry);color:#fff6ea;border:0;border-radius:999px;
-  padding:15px 26px;font:600 17px/1 var(--sans);text-decoration:none;cursor:pointer;min-height:48px}
-.btn:hover{background:var(--berry-d)}
+/* Кнопки: шоколад на глазури */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;background:var(--choc);color:var(--icing);border:0;border-radius:999px;
+  padding:15px 26px;font:600 17px/1 var(--text);text-decoration:none;cursor:pointer;min-height:48px;
+  transition:background-color .2s, color .2s, transform .15s var(--ease)}
+.btn:hover{background:var(--choc-2)}
+.btn:active{transform:scale(.97)}
 .btn-sm{padding:10px 18px;font-size:15px;min-height:40px}
-.btn-ghost{background:transparent;color:var(--berry);border:2px solid var(--berry)}
-.btn-ghost:hover{background:var(--berry);color:#fff6ea}
-.btn.wa{background:var(--wa)} .btn.wa:hover{background:#178c46}
+.btn-ghost{background:transparent;color:var(--choc);box-shadow:inset 0 0 0 2px var(--choc)}
+.btn-ghost:hover{background:var(--choc);color:var(--icing)}
+.btn.wa{background:var(--wa);color:#fff} .btn.wa:hover{background:#17844A}
 .wide{width:100%}
 
+/* Шапка */
 .top{position:sticky;top:0;z-index:10;display:flex;justify-content:space-between;align-items:center;gap:12px;
-  padding:10px 16px;background:rgba(247,239,227,.94);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
-.logo{display:flex;align-items:center;gap:10px;text-decoration:none;color:var(--berry);font:700 17px/1 var(--serif);letter-spacing:.04em;text-transform:uppercase}
-.crown{width:34px;height:auto;display:block}
+  padding:10px 16px;background:rgba(255,252,248,.92);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+.logo{display:flex;align-items:center;gap:10px;text-decoration:none;color:var(--choc);font:400 22px/1 var(--display);letter-spacing:.02em}
+.crown{width:34px;height:auto}
 
-.hero{padding-top:48px!important;padding-bottom:48px!important;display:grid;grid-template-columns:1fr 300px;gap:32px;align-items:center}
-.hero-logo{width:100%;height:auto;max-width:300px;aspect-ratio:1/1;border-radius:50%;background:#fff;box-shadow:0 12px 40px rgba(120,70,30,.15);justify-self:center}
-@media (max-width:760px){.hero{grid-template-columns:1fr;gap:8px}.hero-logo{order:-1;max-width:190px;justify-self:start}}
-.kicker{font:600 13px/1.2 var(--sans);letter-spacing:.14em;text-transform:uppercase;color:var(--honey);margin:0 0 12px}
-.hero h1{font-size:clamp(38px,9vw,72px);max-width:14ch}
-.hero .lead{font-size:clamp(17px,2.4vw,21px);color:var(--soft);max-width:46ch;margin:18px 0 28px}
+/* Первый экран: логотип нанесён на пряник */
+.hero{display:grid;grid-template-columns:1fr minmax(260px,400px);gap:48px;align-items:center;padding-top:56px!important;padding-bottom:56px!important}
+.hero-note{margin:0 0 14px;font:500 16px/1.3 var(--text);color:var(--honey-d)}
+.hero h1{font-size:clamp(44px,8.6vw,84px);line-height:.98;max-width:12ch;color:var(--choc)}
+.hero .lead{font-size:clamp(17px,2.2vw,20px);color:var(--soft);max-width:44ch;margin:20px 0 30px}
+.pryanik{position:relative;width:100%;max-width:400px;aspect-ratio:1/1;justify-self:center}
+.pryanik-ring{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
+.pryanik-logo{position:absolute;left:10%;top:10%;width:80%;height:80%;border-radius:50%;object-fit:cover}
+@media (max-width:760px){
+  .hero{grid-template-columns:1fr;gap:28px;padding-top:28px!important}
+  .pryanik{max-width:280px;order:-1}
+}
 
-.chips{display:flex;gap:8px;overflow-x:auto;padding-bottom:6px;margin:0 -16px 16px;padding-left:16px;padding-right:16px;scrollbar-width:none}
+/* Единственная «сцена» при загрузке: глазурь выдавливается по кругу, пряник ложится */
+.pipe-path{stroke-dasharray:100;stroke-dashoffset:100}
+@media (prefers-reduced-motion:no-preference){
+  .pryanik{animation:lay .9s var(--ease) both}
+  .pipe-path{animation:pipe 1.6s .5s var(--ease) forwards}
+  .pryanik-logo{animation:fadein .6s .25s ease both}
+}
+@media (prefers-reduced-motion:reduce){.pipe-path{stroke-dashoffset:0}}
+@keyframes lay{from{opacity:0;transform:translateY(-14px) rotate(-8deg) scale(.94)}to{opacity:1;transform:none}}
+@keyframes pipe{to{stroke-dashoffset:0}}
+@keyframes fadein{from{opacity:0}to{opacity:1}}
+
+/* Поводы */
+.works{border-top:1px solid var(--line)}
+.chips{display:flex;gap:8px;overflow-x:auto;margin:0 -16px 18px;padding:2px 16px 8px;scrollbar-width:none}
 .chips::-webkit-scrollbar{display:none}
-.chip{flex:none;border:2px solid var(--line);background:var(--card);color:var(--ink);border-radius:999px;padding:9px 16px;font:600 15px/1 var(--sans);cursor:pointer}
-.chip[aria-selected="true"]{background:var(--berry);border-color:var(--berry);color:#fff6ea}
-.occasion-head{display:flex;justify-content:space-between;align-items:flex-start;gap:16px;margin-bottom:16px}
-.occ-lead{margin:0;color:var(--soft);max-width:60ch}
-.occ-from{flex:none;font:700 20px/1.2 var(--serif);color:var(--berry);white-space:nowrap}
-@media (max-width:560px){.occasion-head{flex-direction:column;gap:6px}}
+.chip{flex:none;border:0;box-shadow:inset 0 0 0 1.5px var(--line);background:var(--icing);color:var(--choc);border-radius:999px;
+  padding:10px 16px;font:500 15px/1 var(--text);cursor:pointer;transition:background-color .2s,color .2s,box-shadow .2s}
+.chip:hover{box-shadow:inset 0 0 0 1.5px var(--honey)}
+.chip[aria-selected="true"]{background:var(--honey);color:#fff;box-shadow:none}
+.occasion-head{display:flex;justify-content:space-between;align-items:baseline;gap:16px;margin-bottom:18px}
+.occ-lead{margin:0;color:var(--soft);max-width:56ch}
+.occ-from{flex:none;font:400 24px/1.2 var(--display);color:var(--honey-d);white-space:nowrap}
+@media (max-width:560px){.occasion-head{flex-direction:column;gap:4px}}
 
-.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:14px;margin-bottom:18px}
-@media (max-width:560px){.grid{grid-template-columns:1fr 1fr;gap:10px}}
-.card{background:var(--card);border:1px solid var(--line);border-radius:18px;overflow:hidden;display:flex;flex-direction:column}
-.card .pic{aspect-ratio:1/1;background:#f1e4d3;display:flex;align-items:center;justify-content:center}
-.card .pic svg{width:78%;height:78%}
+/* Работы: фото крупно, подпись под ним, без коробок */
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:26px 18px;margin-bottom:26px}
+@media (max-width:560px){.grid{grid-template-columns:1fr 1fr;gap:20px 12px}}
+.card{display:flex;flex-direction:column}
+.card .pic{aspect-ratio:1/1;background:var(--dough-2);border-radius:50% 50% 18px 18px / 40% 40% 18px 18px;display:flex;align-items:center;justify-content:center;overflow:hidden}
+.card .pic svg{width:74%;height:74%}
 .card .pic img{width:100%;height:100%;object-fit:cover}
-.card .body{padding:12px 14px 14px;display:flex;flex-direction:column;gap:10px;flex:1}
-.card h3{font:600 16px/1.3 var(--sans)}
-.card .btn{margin-top:auto;padding:11px 14px;font-size:15px;min-height:42px}
+.card .body{padding:10px 2px 0;display:flex;flex-direction:column;gap:10px;flex:1}
+.card h3{font:500 16px/1.3 var(--text)}
+.card .btn{margin-top:auto;padding:10px 14px;font-size:15px;min-height:42px;background:transparent;color:var(--choc);box-shadow:inset 0 0 0 1.5px var(--choc)}
+.card .btn:hover{background:var(--choc);color:var(--icing)}
+/* Смена повода: работы появляются по очереди (ответ на нажатие) */
+@media (prefers-reduced-motion:no-preference){
+  .grid.swap .card{animation:rise .45s var(--ease) both;animation-delay:calc(var(--i) * 60ms)}
+}
+@keyframes rise{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
 
-.steps ol{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(3,1fr);gap:14px;counter-reset:s}
-@media (max-width:760px){.steps ol{grid-template-columns:1fr}}
-.steps li{counter-increment:s;background:var(--card);border:1px solid var(--line);border-radius:18px;padding:20px}
-.steps li::before{content:counter(s);display:block;font:700 34px/1 var(--serif);color:var(--honey);margin-bottom:8px}
-.steps b{display:block;font-size:18px}
+/* Как заказать: настоящая последовательность, поэтому с номерами */
+.steps ol{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(3,1fr);gap:28px;counter-reset:s}
+@media (max-width:760px){.steps ol{grid-template-columns:1fr;gap:18px}}
+.steps li{counter-increment:s;display:grid;grid-template-columns:56px 1fr;gap:2px 14px;align-items:start}
+.steps li::before{content:counter(s);grid-row:span 2;width:52px;height:52px;border-radius:50%;background:var(--dough);color:var(--choc);
+  font:400 28px/52px var(--display);text-align:center;box-shadow:inset 0 0 0 3px var(--icing),inset 0 0 0 5px var(--honey)}
+.steps b{font-weight:600;font-size:18px;line-height:1.3}
 .steps span{color:var(--soft)}
 
-.about{display:grid;grid-template-columns:180px 1fr;gap:24px;align-items:center}
-.about-photo{aspect-ratio:1/1;border-radius:50%;background:radial-gradient(circle at 35% 35%,#f3dcc0,#c98a3a)}
-@media (max-width:560px){.about{grid-template-columns:1fr}.about-photo{width:140px}}
-.about p{color:var(--soft);margin:12px 0 0}
+/* Условия: светлое тесто, разделители — точки глазури */
+main>section.terms{max-width:none;background:var(--dough-2);padding-left:0;padding-right:0}
+.terms>*{max-width:1048px;margin-left:auto;margin-right:auto;padding-left:16px;padding-right:16px}
+.terms dl{display:grid;grid-template-columns:1fr 1fr;column-gap:48px;margin-top:0;margin-bottom:0}
+@media (max-width:760px){.terms dl{grid-template-columns:1fr}}
+.terms dl>div{padding:18px 0;background:radial-gradient(circle,var(--honey) 1.6px,transparent 2px) bottom left/12px 4px repeat-x}
+.terms dt{font:400 24px/1.2 var(--display);color:var(--choc)}
+.terms dd{margin:4px 0 0;color:var(--soft);font-size:16px}
+.terms dl>div:first-child{grid-column:1/-1}
+.terms dl>div:first-child dt{color:var(--honey-d);font-size:28px}
 
-.contact-btns{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:12px}
+/* О мастере */
+.about{display:grid;grid-template-columns:150px 1fr;gap:28px;align-items:center}
+.about-photo{aspect-ratio:1/1;border-radius:50%;display:flex;align-items:center;justify-content:center;
+  background:radial-gradient(circle,var(--icing) 0 60%,transparent 60.5%),radial-gradient(circle at 40% 35%,#D79A57,#A86A33)}
+.about-photo img{width:40%;height:auto}
+@media (max-width:560px){.about{grid-template-columns:1fr}.about-photo{width:120px}}
+.about p{color:var(--soft);margin:12px 0 0;max-width:60ch}
 
+/* Контакты */
+.contacts{border-top:1px solid var(--line)}
+.contact-btns{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:16px}
+.contact-line{margin:0 0 4px;font:400 30px/1.2 var(--display)}
+.contact-line a{text-decoration:none;color:var(--choc)}
 .foot{max-width:1080px;margin:0 auto;padding:24px 16px 40px;display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;
   border-top:1px solid var(--line);font-size:14px;color:var(--soft)}
 
-.modal{position:fixed;inset:0;z-index:50;background:rgba(40,24,16,.45);display:flex;align-items:flex-end;justify-content:center}
-.modal[hidden]{display:none}
-.sheet{position:relative;background:var(--bg);width:100%;max-width:520px;max-height:92vh;overflow:auto;border-radius:22px 22px 0 0;padding:22px 18px 18px}
-@media (min-width:600px){.modal{align-items:center}.sheet{border-radius:22px}}
-.sheet h3{font-size:24px;margin-bottom:14px;padding-right:36px}
-.close{position:absolute;top:10px;right:10px;width:40px;height:40px;border:0;background:var(--card);border-radius:50%;font-size:26px;line-height:1;cursor:pointer;color:var(--soft)}
+/* Окно заявки: выезжает снизу, как лист */
+.modal{position:fixed;inset:0;z-index:50;background:rgba(62,35,24,.42);display:flex;align-items:flex-end;justify-content:center}
+.sheet{position:relative;background:var(--icing);width:100%;max-width:520px;max-height:92vh;overflow:auto;border-radius:24px 24px 0 0;padding:24px 18px 18px}
+@media (min-width:600px){.modal{align-items:center}.sheet{border-radius:24px}}
+@media (prefers-reduced-motion:no-preference){
+  .modal:not([hidden]){animation:fadein .2s ease}
+  .modal:not([hidden]) .sheet{animation:sheet .35s var(--ease)}
+}
+@keyframes sheet{from{transform:translateY(40px);opacity:.4}to{transform:none;opacity:1}}
+.sheet .kicker{margin:0 0 4px;color:var(--honey-d);font-weight:500;font-size:15px}
+.sheet h3{font-size:30px;margin-bottom:16px;padding-right:40px}
+.close{position:absolute;top:12px;right:12px;width:40px;height:40px;border:0;background:var(--dough-2);border-radius:50%;font-size:26px;line-height:1;cursor:pointer;color:var(--choc)}
 form{display:flex;flex-direction:column;gap:14px}
 label{display:flex;flex-direction:column;gap:6px;font-weight:600;font-size:15px}
-input,textarea{font:400 16px/1.4 var(--sans);padding:12px 14px;border:2px solid var(--line);border-radius:12px;background:#fff;color:var(--ink)}
+input,textarea{font:400 16px/1.4 var(--text);padding:12px 14px;border:1.5px solid var(--line);border-radius:12px;background:#fff;color:var(--choc)}
 input:focus,textarea:focus{outline:none;border-color:var(--honey)}
 fieldset{border:0;padding:0;margin:0;display:flex;flex-direction:column;gap:8px}
 legend{font-weight:600;font-size:15px;margin-bottom:6px}
-.radio{flex-direction:row;align-items:center;gap:10px;font-weight:400;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:10px 12px}
-.radio input{width:20px;height:20px;accent-color:var(--berry);margin:0}
+.radio{flex-direction:row;align-items:center;gap:10px;font-weight:400;background:#fff;border:1.5px solid var(--line);border-radius:12px;padding:10px 12px;transition:border-color .2s}
+.radio:has(input:checked){border-color:var(--honey);background:#FFF7EC}
+.radio input{width:20px;height:20px;accent-color:var(--honey-d);margin:0}
 .alt{display:flex;gap:8px;flex-wrap:wrap}
 .alt .btn{flex:1}
 
-.toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);z-index:60;background:var(--ink);color:#fff;padding:12px 18px;border-radius:12px;font-size:15px;max-width:90vw;text-align:center}
-.cookie{position:fixed;left:12px;right:12px;bottom:12px;z-index:40;background:var(--card);border:1px solid var(--line);border-radius:16px;
-  padding:12px 14px;display:flex;gap:10px;align-items:center;justify-content:space-between;flex-wrap:wrap;box-shadow:0 8px 24px rgba(0,0,0,.08);font-size:14px}
+.toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);z-index:60;background:var(--choc);color:var(--icing);padding:12px 18px;border-radius:12px;font-size:15px;max-width:90vw;text-align:center}
+.cookie{position:fixed;left:12px;right:12px;bottom:12px;z-index:40;background:#fff;border:1px solid var(--line);border-radius:16px;
+  padding:12px 14px;display:flex;gap:10px;align-items:center;justify-content:space-between;flex-wrap:wrap;box-shadow:0 8px 24px rgba(62,35,24,.1);font-size:14px}
 .cookie p{margin:0}
 .cookie div{display:flex;gap:8px}
-@media (max-width:360px){.logo{font-size:14px;gap:7px}.crown{width:28px}.top .btn-sm{padding:9px 14px}}
-@media (max-width:420px){.logo{font-size:15px;letter-spacing:.02em}}
 
-.terms dl{margin:0;display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:12px}
-.terms dl>div{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:18px 20px}
-.terms dt{font:700 18px/1.25 var(--serif);color:var(--berry)}
-.terms dd{margin:6px 0 0;color:var(--soft);font-size:16px}
-.terms dl>div:first-child{border-color:var(--honey);background:#fff6e6}
-.contact-line{margin:0 0 6px;font:700 22px/1.3 var(--serif)}
-.contact-line a{text-decoration:none}
+@media (max-width:420px){.logo{font-size:19px}.crown{width:28px}}
+@media (max-width:360px){.logo{font-size:17px;gap:7px}.top .btn-sm{padding:9px 14px}}
+@media (min-width:761px){.works>[data-own]{width:auto;padding-left:34px;padding-right:34px}}

@@ -7,6 +7,9 @@
 <title>Королевский Пряник — пряники на заказ в Майкопе</title>
 <meta name="description" content="Пряники ручной росписи на заказ в Майкопе: свадебные с датой, с логотипом, наборы к праздникам, домики и мастер-классы для детей.">
 <link rel="icon" type="image/png" href="img/favicon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Forum&family=Golos+Text:wght@400;500;600&display=swap">
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -18,12 +21,31 @@
 <main>
   <section class="hero">
     <div class="hero-text">
-      <p class="kicker" data-hero="kicker"></p>
+      <p class="hero-note" data-hero="kicker"></p>
       <h1 data-hero="title"></h1>
       <p class="lead" data-hero="text"></p>
       <a class="btn" href="#works" data-hero="cta"></a>
     </div>
-    <img class="hero-logo" src="img/logo.jpg" alt="Логотип «Королевский Пряник» — пряничная мастерская" width="560" height="560">
+    <div class="pryanik" role="img" aria-label="Логотип «Королевский Пряник» — пряничная мастерская">
+      <svg class="pryanik-ring" viewBox="0 0 200 200" aria-hidden="true">
+        <defs>
+          <radialGradient id="dough" cx="42%" cy="38%" r="70%">
+            <stop offset="0" stop-color="#D79A57"/><stop offset=".7" stop-color="#B9773A"/><stop offset="1" stop-color="#9A5F2C"/>
+          </radialGradient>
+          <mask id="pipe"><circle cx="100" cy="100" r="89" fill="none" stroke="#fff" stroke-width="10" pathLength="100" class="pipe-path"/></mask>
+        </defs>
+        <circle cx="100" cy="102" r="98" fill="#7A4A23" opacity=".35"/>
+        <circle cx="100" cy="100" r="98" fill="url(#dough)"/>
+        <g class="speckle" fill="#8A5428" opacity=".55">
+          <circle cx="30" cy="70" r="1.2"/><circle cx="22" cy="110" r="1"/><circle cx="40" cy="160" r="1.3"/><circle cx="160" cy="40" r="1.1"/>
+          <circle cx="178" cy="96" r="1.2"/><circle cx="170" cy="150" r="1"/><circle cx="100" cy="190" r="1.2"/><circle cx="70" cy="14" r="1"/>
+          <circle cx="130" cy="186" r=".9"/><circle cx="16" cy="140" r=".9"/><circle cx="186" cy="124" r=".9"/><circle cx="140" cy="12" r="1"/>
+        </g>
+        <circle cx="100" cy="100" r="89" fill="none" stroke="#FFF8F0" stroke-width="4.2" stroke-linecap="round" stroke-dasharray="0 6.2" mask="url(#pipe)"/>
+        <circle cx="100" cy="100" r="82" fill="#FFFCF8"/>
+      </svg>
+      <img class="pryanik-logo" src="img/logo.jpg" alt="" width="560" height="560">
+    </div>
   </section>
 
   <section id="works" class="works">
@@ -48,7 +70,7 @@
   </section>
 
   <section class="about">
-    <div class="about-photo" aria-hidden="true"></div>
+    <div class="about-photo" aria-hidden="true"><img src="img/crown.png" alt="" width="128" height="125"></div>
     <div>
       <h2 data-about="title"></h2>
       <p data-about="text"></p>

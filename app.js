@@ -65,8 +65,10 @@
     $$(".chip", chips).forEach((c) => c.setAttribute("aria-selected", c.dataset.id === current.id));
     $("[data-occ-lead]").textContent = current.lead;
     $("[data-occ-from]").textContent = current.from;
-    $("[data-grid]").innerHTML = current.works.map((w, i) => `
-      <article class="card">
+    const grid = $("[data-grid]");
+    grid.classList.remove("swap"); void grid.offsetWidth; if (show.ready) grid.classList.add("swap"); show.ready = true;
+    grid.innerHTML = current.works.map((w, i) => `
+      <article class="card" style="--i:${i}">
         <div class="pic">${w.img ? `<img src="${w.img}" alt="${w.title}" loading="lazy">` : placeholder(w)}</div>
         <div class="body"><h3>${w.title}</h3>
           <button class="btn" data-want="${i}">${current.mk ? "Записаться" : "Хочу похожее"}</button></div>
