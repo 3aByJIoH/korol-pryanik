@@ -240,3 +240,13 @@ html[data-theme="easter"]{--hero-bg:#EEE6F6;--hero-ink:#3D3A2E;--hero-soft:#5F58
   .themer-panel{left:auto;right:0}
 }
 .themer-btn{box-shadow:0 6px 20px rgba(0,0,0,.18),0 0 0 2px rgba(255,255,255,.7)}
+
+/* Выравнивание: шапка, секции и подвал стоят по одной центральной колонке */
+.top{padding-left:max(16px, calc((100% - 1048px) / 2));padding-right:max(16px, calc((100% - 1048px) / 2))}
+.terms>*{max-width:1080px}
+/* Телефон: первый экран по центру, под пряником */
+@media (max-width:760px){
+  .hero-text{text-align:center}
+  .hero h1,.hero .lead{margin-left:auto;margin-right:auto}
+  .pryanik{justify-self:center}
+}
