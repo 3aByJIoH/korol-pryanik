@@ -49,6 +49,9 @@
   // ---------- Тексты ----------
   $$("[data-brand]").forEach((el) => (el.textContent = S.brand));
   $$("[data-city]").forEach((el) => (el.textContent = S.city));
+  $$("[data-address]").forEach((el) => (el.textContent = S.address || S.city));
+  $$("[data-phone]").forEach((el) => { el.textContent = S.contacts.phone || ""; el.href = "tel:+" + S.contacts.whatsapp; el.onclick = () => goal("contact_phone"); });
+  if (S.terms) $("[data-terms]").innerHTML = S.terms.map((x) => `<div><dt>${x.t}</dt><dd>${x.d}</dd></div>`).join("");
   $$("[data-hero]").forEach((el) => (el.textContent = S.hero[el.dataset.hero]));
   $$("[data-about]").forEach((el) => (el.textContent = S.about[el.dataset.about]));
   $("[data-steps]").innerHTML = S.steps.map((s) => `<li><b>${s.t}</b><span>${s.d}</span></li>`).join("");
@@ -120,7 +123,7 @@
   // MAX и VK не умеют открывать чат с готовым текстом: копируем и открываем чат
   const alt = [];
   if (S.contacts.max) alt.push(["max", "Скопировать → MAX", S.contacts.max]);
-  if (S.contacts.vk) alt.push(["vk", "Скопировать → ВК", S.contacts.vk.replace(/vk\.com\/club(\d+)/, "vk.me/club$1")]);
+  if (S.contacts.vk) alt.push(["vk", "Скопировать → ВК", S.contacts.vkMessages || S.contacts.vk]);
   $("[data-alt]").innerHTML = alt.map(([k, t]) => `<button type="button" class="btn btn-ghost btn-sm" data-alt-go="${k}">${t}</button>`).join("");
   $("[data-alt]").addEventListener("click", async (e) => {
     const b = e.target.closest("[data-alt-go]"); if (!b) return;

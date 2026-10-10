@@ -6,20 +6,24 @@
 <meta name="robots" content="noindex,nofollow">
 <title>Королевский Пряник — пряники на заказ в Майкопе</title>
 <meta name="description" content="Пряники ручной росписи на заказ в Майкопе: свадебные с датой, с логотипом, наборы к праздникам, домики и мастер-классы для детей.">
+<link rel="icon" type="image/png" href="img/favicon.png">
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
 <header class="top">
-  <a class="logo" href="#"><span class="crown" aria-hidden="true"></span><span data-brand></span></a>
+  <a class="logo" href="#"><img class="crown" src="img/crown.png" alt="" width="34" height="33"><span data-brand></span></a>
   <a class="btn btn-sm" data-wa-general href="#">Написать</a>
 </header>
 
 <main>
   <section class="hero">
-    <p class="kicker" data-hero="kicker"></p>
-    <h1 data-hero="title"></h1>
-    <p class="lead" data-hero="text"></p>
-    <a class="btn" href="#works" data-hero="cta"></a>
+    <div class="hero-text">
+      <p class="kicker" data-hero="kicker"></p>
+      <h1 data-hero="title"></h1>
+      <p class="lead" data-hero="text"></p>
+      <a class="btn" href="#works" data-hero="cta"></a>
+    </div>
+    <img class="hero-logo" src="img/logo.jpg" alt="Логотип «Королевский Пряник» — пряничная мастерская" width="560" height="560">
   </section>
 
   <section id="works" class="works">
@@ -38,6 +42,11 @@
     <ol data-steps></ol>
   </section>
 
+  <section class="terms">
+    <h2>Как получить заказ</h2>
+    <dl data-terms></dl>
+  </section>
+
   <section class="about">
     <div class="about-photo" aria-hidden="true"></div>
     <div>
@@ -49,7 +58,8 @@
   <section class="contacts" id="contacts">
     <h2>Написать мне</h2>
     <div class="contact-btns" data-contacts></div>
-    <p class="muted"><span data-city></span> · работаю на заказ</p>
+    <p class="contact-line"><a data-phone href="#"></a></p>
+    <p class="muted"><span data-address></span> · частная мастерская, работаю под заказ</p>
   </section>
 </main>
 
