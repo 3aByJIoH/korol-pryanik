@@ -168,3 +168,75 @@ legend{font-weight:600;font-size:15px;margin-bottom:6px}
 @media (max-width:420px){.logo{font-size:19px}.crown{width:28px}}
 @media (max-width:360px){.logo{font-size:17px;gap:7px}.top .btn-sm{padding:9px 14px}}
 @media (min-width:761px){.works>[data-own]{width:auto;padding-left:34px;padding-right:34px}}
+
+/* ===== Варианты оформления к праздникам (демо) ===== */
+:root{--pipe:#FFF8F0;--flake:var(--honey)}
+.icing-dots{stroke:var(--pipe);transition:stroke .5s}
+body,.top,main>section.terms,.btn,.chip,.steps li::before,.card .pic{transition:background-color .5s,color .5s,box-shadow .3s,border-color .5s}
+.hero{position:relative}
+.hero-text{position:relative;z-index:1}
+
+/* Новый год: морозная глазурь, еловый, золото */
+html[data-theme="ny"]{--icing:#FBFDFF;--dough:#D9E6EA;--dough-2:#EAF2F4;--honey:#B8862E;--honey-d:#8E6420;--choc:#1F3B32;--choc-2:#2D5245;--soft:#4E6159;--line:#D3E1E3;--pipe:#FFFFFF;--flake:#A9C6D3}
+/* 14 февраля: малиновая и розовая глазурь */
+html[data-theme="valentine"]{--icing:#FFFAFA;--dough:#F4CDD4;--dough-2:#FBE7EA;--honey:#C4475E;--honey-d:#A3324A;--choc:#5A1F2B;--choc-2:#74293A;--soft:#7D5560;--line:#F1D5DA;--pipe:#F9C9D3;--flake:#E07A8E}
+/* 23 февраля: синий и латунь */
+html[data-theme="feb23"]{--icing:#FAFBFC;--dough:#D6DEE6;--dough-2:#E8EDF2;--honey:#9C7A3C;--honey-d:#7A5D28;--choc:#22344A;--choc-2:#30475F;--soft:#56606B;--line:#D9E0E7;--pipe:#FFFFFF;--flake:#B79A5E}
+/* 8 Марта: мимоза и листья */
+html[data-theme="march8"]{--icing:#FFFDF5;--dough:#F7E6A6;--dough-2:#FFF4CC;--honey:#C9930F;--honey-d:#9A700A;--choc:#3E4D2A;--choc-2:#52653A;--soft:#6A6A4E;--line:#EEE3B9;--pipe:#FFE58A;--flake:#E2B21E}
+/* Пасха: сирень и шалфей */
+html[data-theme="easter"]{--icing:#FFFDFB;--dough:#E3D9EE;--dough-2:#F1ECF7;--honey:#8E6FA8;--honey-d:#6E528A;--choc:#3D3A2E;--choc-2:#55513F;--soft:#6B6559;--line:#E6DEEE;--pipe:#EADCF7;--flake:#A9C08A}
+
+/* Праздничный декор на первом экране: одна тихая сцена, за текстом */
+.flurry{position:absolute;inset:0;overflow:hidden;pointer-events:none;z-index:0}
+.flake{position:absolute;top:-24px;color:var(--flake);opacity:.55;font-size:var(--s,16px);line-height:1;will-change:transform}
+.flake.egg{width:calc(var(--s) * .75);height:var(--s);border-radius:50% 50% 46% 46% / 58% 58% 42% 42%;background:var(--c,var(--flake))}
+@media (prefers-reduced-motion:no-preference){
+  .flake{animation:fall var(--d,12s) linear var(--delay,0s) infinite}
+  .flurry.rise .flake{top:auto;bottom:-24px;animation-name:rise-up}
+}
+@media (prefers-reduced-motion:reduce){.flake{top:var(--y,20%)}}
+@keyframes fall{from{transform:translate3d(0,0,0) rotate(0)}to{transform:translate3d(var(--dx,20px),calc(100vh + 40px),0) rotate(240deg)}}
+@keyframes rise-up{from{transform:translate3d(0,0,0);opacity:0}15%{opacity:.55}to{transform:translate3d(var(--dx,20px),-110vh,0);opacity:0}}
+.pryanik.replay .pipe-path{animation:none}
+
+/* Переключатель оформления */
+.themer{position:fixed;left:12px;bottom:12px;z-index:45;font-size:14px}
+.themer-btn{display:flex;align-items:center;gap:8px;border:0;cursor:pointer;background:var(--choc);color:var(--icing);border-radius:999px;padding:10px 16px 10px 10px;
+  font:600 14px/1 var(--text);box-shadow:0 6px 20px rgba(0,0,0,.18)}
+.themer-dot{width:22px;height:22px;border-radius:50%;background:radial-gradient(circle,var(--icing) 0 45%,var(--honey) 46%);box-shadow:0 0 0 2px var(--icing)}
+.themer-panel{position:absolute;left:0;bottom:calc(100% + 10px);width:min(320px,calc(100vw - 24px));background:#fff;border:1px solid var(--line);border-radius:18px;padding:14px;
+  box-shadow:0 12px 40px rgba(0,0,0,.16)}
+.themer-panel p{margin:0 0 10px;color:var(--soft);font-size:13px}
+.themer-list{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.theme-opt{display:flex;flex-direction:column;align-items:center;gap:6px;border:0;background:none;cursor:pointer;padding:6px 2px;border-radius:12px;color:#3a2a20;font:500 12.5px/1.2 var(--text)}
+.theme-opt:hover{background:#f6f3ef}
+.theme-swatch{width:46px;height:46px;border-radius:50%;
+  background:radial-gradient(circle,var(--sw-bg) 0 52%,var(--sw-pipe) 53% 58%,var(--sw-ring) 59%);box-shadow:inset 0 0 0 1px rgba(0,0,0,.06)}
+.theme-opt[aria-checked="true"] .theme-swatch{box-shadow:0 0 0 3px #fff,0 0 0 5px #3a2a20}
+@media (prefers-reduced-motion:no-preference){.themer-panel:not([hidden]){animation:sheet .25s var(--ease)}}
+
+/* Первый экран во всю ширину — главное отличие вариантов */
+:root{--hero-bg:var(--icing);--hero-ink:var(--choc);--hero-soft:var(--soft);--hero-note:var(--honey-d);--hero-btn:var(--choc);--hero-btn-ink:var(--icing)}
+main>section.hero{background:var(--hero-bg);box-shadow:0 0 0 100vmax var(--hero-bg);clip-path:inset(0 -100vmax);transition:background-color .5s,box-shadow .5s}
+.hero h1{color:var(--hero-ink);transition:color .5s}
+.hero .lead{color:var(--hero-soft);transition:color .5s}
+.hero-note{color:var(--hero-note);transition:color .5s}
+.hero .btn{background:var(--hero-btn);color:var(--hero-btn-ink)}
+.hero .btn:hover{filter:brightness(1.08)}
+.flake{opacity:.8}
+html[data-theme] .works{border-top:0}
+html[data-theme="ny"]{--hero-bg:#1F3B32;--hero-ink:#FBFDFF;--hero-soft:#C9D8D2;--hero-note:#E3C27A;--hero-btn:#FBFDFF;--hero-btn-ink:#1F3B32;--flake:#FFFFFF}
+html[data-theme="valentine"]{--hero-bg:#F8DCE2;--hero-ink:#5A1F2B;--hero-soft:#7D4A57;--hero-note:#A3324A;--flake:#E46A85}
+html[data-theme="feb23"]{--hero-bg:#22344A;--hero-ink:#F4F6F8;--hero-soft:#C3CCD6;--hero-note:#D9B977;--hero-btn:#F4F6F8;--hero-btn-ink:#22344A;--flake:#D9B977}
+html[data-theme="march8"]{--hero-bg:#FFF0B8;--hero-ink:#3E4D2A;--hero-soft:#5E5E3E;--hero-note:#8A6608;--flake:#E0A800}
+html[data-theme="easter"]{--hero-bg:#EEE6F6;--hero-ink:#3D3A2E;--hero-soft:#5F5868;--hero-note:#6E528A}
+.pryanik{z-index:1}
+@media (max-width:600px){
+  .themer{left:auto;right:12px}
+  .themer-btn{padding:8px}
+  .themer-btn [data-themer-label]{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+  .themer-dot{width:28px;height:28px}
+  .themer-panel{left:auto;right:0}
+}
+.themer-btn{box-shadow:0 6px 20px rgba(0,0,0,.18),0 0 0 2px rgba(255,255,255,.7)}

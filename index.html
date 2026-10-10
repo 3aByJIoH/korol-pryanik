@@ -6,11 +6,13 @@
 <meta name="robots" content="noindex,nofollow">
 <title>Королевский Пряник — пряники на заказ в Майкопе</title>
 <meta name="description" content="Пряники ручной росписи на заказ в Майкопе: свадебные с датой, с логотипом, наборы к праздникам, домики и мастер-классы для детей.">
+<script>/* оформление ставим до отрисовки, чтобы не мигал классический вариант */
+try{var t=new URLSearchParams(location.search).get("theme")||localStorage.getItem("kp-theme");if(t&&t!=="classic")document.documentElement.dataset.theme=t}catch(e){}</script>
 <link rel="icon" type="image/png" href="img/favicon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Forum&family=Golos+Text:wght@400;500;600&display=swap">
-<link rel="stylesheet" href="style.css?v=3">
+<link rel="stylesheet" href="style.css?v=4">
 </head>
 <body>
 <header class="top">
@@ -20,6 +22,7 @@
 
 <main>
   <section class="hero">
+    <div class="flurry" data-flurry aria-hidden="true"></div>
     <div class="hero-text">
       <p class="hero-note" data-hero="kicker"></p>
       <h1 data-hero="title"></h1>
@@ -41,7 +44,7 @@
           <circle cx="178" cy="96" r="1.2"/><circle cx="170" cy="150" r="1"/><circle cx="100" cy="190" r="1.2"/><circle cx="70" cy="14" r="1"/>
           <circle cx="130" cy="186" r=".9"/><circle cx="16" cy="140" r=".9"/><circle cx="186" cy="124" r=".9"/><circle cx="140" cy="12" r="1"/>
         </g>
-        <circle cx="100" cy="100" r="89" fill="none" stroke="#FFF8F0" stroke-width="4.2" stroke-linecap="round" stroke-dasharray="0 6.2" mask="url(#pipe)"/>
+        <circle class="icing-dots" cx="100" cy="100" r="89" fill="none" stroke="#FFF8F0" stroke-width="4.2" stroke-linecap="round" stroke-dasharray="0 6.2" mask="url(#pipe)"/>
         <circle cx="100" cy="100" r="82" fill="#FFFCF8"/>
       </svg>
       <img class="pryanik-logo" src="img/logo.jpg" alt="" width="560" height="560">
@@ -121,12 +124,23 @@
 
 <div class="toast" data-toast hidden></div>
 
+<!-- Демо: переключатель вариантов оформления -->
+<div class="themer" data-themer>
+  <button class="themer-btn" type="button" data-themer-toggle aria-expanded="false" aria-controls="themer-panel">
+    <span class="themer-dot" aria-hidden="true"></span><span data-themer-label>Оформление</span>
+  </button>
+  <div class="themer-panel" id="themer-panel" data-themer-panel hidden>
+    <p>Варианты оформления к праздникам</p>
+    <div class="themer-list" role="radiogroup" aria-label="Оформление сайта" data-themer-list></div>
+  </div>
+</div>
+
 <div class="cookie" data-cookie hidden>
   <p>Сайт использует cookie для статистики посещений. <a href="politika.html">Подробнее</a></p>
   <div><button class="btn btn-sm btn-ghost" data-cookie-no>Только необходимые</button><button class="btn btn-sm" data-cookie-yes>Разрешить</button></div>
 </div>
 
-<script src="data.js?v=3"></script>
-<script src="app.js?v=3"></script>
+<script src="data.js?v=4"></script>
+<script src="app.js?v=4"></script>
 </body>
 </html>

@@ -79,6 +79,61 @@
   $("[data-own]").onclick = () => open(null);
   show(current.id);
 
+  // ---------- Варианты оформления (демо) ----------
+  const SW = { // цвета кружков в переключателе: фон, глазурь, тесто
+    classic: ["#FFFCF8", "#FFF8F0", "#B9773A"], ny: ["#FBFDFF", "#FFFFFF", "#1F3B32"], valentine: ["#FFFAFA", "#F9C9D3", "#C4475E"],
+    feb23: ["#FAFBFC", "#FFFFFF", "#22344A"], march8: ["#FFFDF5", "#FFE58A", "#C9930F"], easter: ["#FFFDFB", "#EADCF7", "#8E6FA8"]
+  };
+  const DECO = { snow: "❄", hearts: "♥", stars: "★", flowers: "✿", eggs: "" };
+  const EGG = ["#B79BDB", "#9DC27A", "#F0B57A", "#E895AE", "#8FB6E0"];
+  const themes = S.themes || [];
+  const list = $("[data-themer-list]"), panel = $("[data-themer-panel]"), toggle = $("[data-themer-toggle]");
+  list.innerHTML = themes.map((t) => { const c = SW[t.id] || SW.classic;
+    return `<button type="button" class="theme-opt" role="radio" data-theme-id="${t.id}" aria-checked="false">
+      <span class="theme-swatch" style="--sw-bg:${c[0]};--sw-pipe:${c[1]};--sw-ring:${c[2]}"></span>${t.name}</button>`; }).join("");
+
+  function flurry(t) {
+    const box = $("[data-flurry]"); box.innerHTML = ""; box.className = "flurry";
+    if (!t.deco) return;
+    if (t.deco === "hearts") box.classList.add("rise");
+    const n = window.innerWidth < 600 ? 10 : 16;
+    let html = "";
+    for (let i = 0; i < n; i++) {
+      const st = `left:${Math.round(Math.random() * 100)}%;--s:${10 + Math.round(Math.random() * 14)}px;--d:${10 + Math.round(Math.random() * 10)}s;` +
+        `--delay:-${Math.round(Math.random() * 18)}s;--dx:${Math.round(Math.random() * 60 - 30)}px;--y:${Math.round(Math.random() * 90)}%`;
+      html += t.deco === "eggs"
+        ? `<span class="flake egg" style="${st};--c:${EGG[i % EGG.length]}"></span>`
+        : `<span class="flake" style="${st}">${DECO[t.deco]}</span>`;
+    }
+    box.innerHTML = html;
+  }
+
+  function applyTheme(id, user) {
+    const t = themes.find((x) => x.id === id) || themes[0];
+    if (!t) return;
+    if (t.id === "classic") delete document.documentElement.dataset.theme; else document.documentElement.dataset.theme = t.id;
+    $("[data-hero=kicker]").textContent = t.note || S.hero.kicker;
+    $("[data-hero=title]").textContent = t.title || S.hero.title;
+    $("[data-hero=text]").textContent = t.text || S.hero.text;
+    $$(".theme-opt", list).forEach((b) => b.setAttribute("aria-checked", b.dataset.themeId === t.id));
+    $("[data-themer-label]").textContent = t.id === "classic" ? "Оформление" : t.name;
+    flurry(t);
+    if (user) {
+      if (t.occasion) show(t.occasion);
+      const pr = $(".pryanik"); pr.classList.add("replay"); void pr.offsetWidth; pr.classList.remove("replay"); // глазурь рисуется заново
+      try { localStorage.setItem("kp-theme", t.id); } catch (e) {}
+      const u = new URL(location.href); if (t.id === "classic") u.searchParams.delete("theme"); else u.searchParams.set("theme", t.id);
+      history.replaceState(null, "", u);
+      goal("theme_" + t.id);
+    } else if (t.occasion) show(t.occasion);
+  }
+  toggle.addEventListener("click", () => { const open = panel.hidden; panel.hidden = !open; toggle.setAttribute("aria-expanded", open); });
+  list.addEventListener("click", (e) => { const b = e.target.closest(".theme-opt"); if (b) applyTheme(b.dataset.themeId, true); });
+  document.addEventListener("click", (e) => { if (!panel.hidden && !e.target.closest("[data-themer]")) { panel.hidden = true; toggle.setAttribute("aria-expanded", "false"); } });
+  let startTheme = new URLSearchParams(location.search).get("theme");
+  if (!startTheme) { try { startTheme = localStorage.getItem("kp-theme"); } catch (e) {} }
+  applyTheme(startTheme || "classic", false);
+
   // ---------- Окно заявки ----------
   const modal = $("[data-modal]"), form = $("[data-form]");
   let work = null;
