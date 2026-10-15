@@ -250,3 +250,18 @@ html[data-theme="easter"]{--hero-bg:#EEE6F6;--hero-ink:#3D3A2E;--hero-soft:#5F58
   .hero h1,.hero .lead{margin-left:auto;margin-right:auto}
   .pryanik{justify-self:center}
 }
+
+/* Логотип без пряничного кольца: тонкая тёмно-коричневая рамка (по просьбе Кати) */
+:root{--logo-border:#3E2318;--logo-border-w:3px}
+.pryanik{max-width:340px}
+.pryanik-logo{left:0;top:0;width:100%;height:100%;border:var(--logo-border-w) solid var(--logo-border);background:#fff}
+@media (max-width:760px){.pryanik{max-width:240px}}
+
+/* Выбор шрифта заголовков */
+.themer-sub{margin-top:14px!important}
+.font-list{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.font-opt{display:flex;flex-direction:column;align-items:center;gap:2px;border:1.5px solid #ece4da;background:#fff;border-radius:12px;padding:8px 4px;cursor:pointer;color:#3a2a20;font-size:13px;line-height:1.1}
+.font-opt small{font-size:19px;line-height:1.2}
+.font-opt:hover{border-color:#cdbba6}
+.font-opt[aria-checked="true"]{border-color:#3a2a20;box-shadow:inset 0 0 0 1px #3a2a20}
+.themer-panel{max-height:calc(100vh - 90px);overflow:auto}

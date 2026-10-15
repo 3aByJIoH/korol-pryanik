@@ -93,7 +93,7 @@
       <span class="theme-swatch" style="--sw-bg:${c[0]};--sw-pipe:${c[1]};--sw-ring:${c[2]}"></span>${t.name}</button>`; }).join("");
 
   function flurry(t) {
-    const box = $("[data-flurry]"); box.innerHTML = ""; box.className = "flurry";
+    const box = $("[data-flurry]"); if (!box) return; box.innerHTML = ""; box.className = "flurry";
     if (!t.deco) return;
     if (t.deco === "hearts") box.classList.add("rise");
     const n = window.innerWidth < 600 ? 10 : 16;
@@ -116,11 +116,10 @@
     $("[data-hero=title]").textContent = t.title || S.hero.title;
     $("[data-hero=text]").textContent = t.text || S.hero.text;
     $$(".theme-opt", list).forEach((b) => b.setAttribute("aria-checked", b.dataset.themeId === t.id));
-    $("[data-themer-label]").textContent = t.id === "classic" ? "Оформление" : t.name;
+    $("[data-themer-label]").textContent = "Оформление";
     flurry(t);
     if (user) {
       if (t.occasion) show(t.occasion);
-      const pr = $(".pryanik"); pr.classList.add("replay"); void pr.offsetWidth; pr.classList.remove("replay"); // глазурь рисуется заново
       try { localStorage.setItem("kp-theme", t.id); } catch (e) {}
       const u = new URL(location.href); if (t.id === "classic") u.searchParams.delete("theme"); else u.searchParams.set("theme", t.id);
       history.replaceState(null, "", u);
@@ -130,6 +129,26 @@
   toggle.addEventListener("click", () => { const open = panel.hidden; panel.hidden = !open; toggle.setAttribute("aria-expanded", open); });
   list.addEventListener("click", (e) => { const b = e.target.closest(".theme-opt"); if (b) applyTheme(b.dataset.themeId, true); });
   document.addEventListener("click", (e) => { if (!panel.hidden && !e.target.closest("[data-themer]")) { panel.hidden = true; toggle.setAttribute("aria-expanded", "false"); } });
+  // Шрифт заголовков
+  const fonts = S.fonts || [], fontList = $("[data-font-list]");
+  if (fontList) fontList.innerHTML = fonts.map((f) =>
+    `<button type="button" class="font-opt" role="radio" data-font-id="${f.id}" aria-checked="false" style="font-family:${f.css.replace(/"/g, "'")}">${f.name}<small>Пряники</small></button>`).join("");
+  function applyFont(id, user) {
+    const f = fonts.find((x) => x.id === id) || fonts[0]; if (!f) return;
+    document.documentElement.style.setProperty("--display", f.css + ', "Times New Roman", Georgia, serif');
+    document.documentElement.dataset.font = f.id;
+    $$(".font-opt", fontList).forEach((b) => b.setAttribute("aria-checked", b.dataset.fontId === f.id));
+    if (user) {
+      try { localStorage.setItem("kp-font", f.id); } catch (e) {}
+      const u = new URL(location.href); if (f.id === fonts[0].id) u.searchParams.delete("font"); else u.searchParams.set("font", f.id);
+      history.replaceState(null, "", u); goal("font_" + f.id);
+    }
+  }
+  if (fontList) fontList.addEventListener("click", (e) => { const b = e.target.closest(".font-opt"); if (b) applyFont(b.dataset.fontId, true); });
+  let startFont = new URLSearchParams(location.search).get("font");
+  if (!startFont) { try { startFont = localStorage.getItem("kp-font"); } catch (e) {} }
+  applyFont(startFont || (fonts[0] && fonts[0].id), false);
+
   let startTheme = new URLSearchParams(location.search).get("theme");
   if (!startTheme) { try { startTheme = localStorage.getItem("kp-theme"); } catch (e) {} }
   applyTheme(startTheme || "classic", false);
