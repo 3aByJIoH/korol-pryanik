@@ -51,6 +51,8 @@
   $$("[data-city]").forEach((el) => (el.textContent = S.city));
   $$("[data-address]").forEach((el) => (el.textContent = S.address || S.city));
   $$("[data-phone]").forEach((el) => { el.textContent = S.contacts.phone || ""; el.href = "tel:+" + S.contacts.whatsapp; el.onclick = () => goal("contact_phone"); });
+  if (S.extras) $("[data-extras]").innerHTML = S.extras.map((x, i) => `<li><span>${x.t}</span><span class="extra-p">${x.p}</span><button class="btn btn-sm btn-ghost" data-extra="${i}">Заказать</button></li>`).join("");
+  if (S.ingredients) $("[data-ingredients]").innerHTML = S.ingredients.map((x) => `<p><b>${x.t}:</b> ${x.d}</p>`).join("");
   if (S.terms) $("[data-terms]").innerHTML = S.terms.map((x) => `<div><dt>${x.t}</dt><dd>${x.d}</dd></div>`).join("");
   $$("[data-hero]").forEach((el) => (el.textContent = S.hero[el.dataset.hero]));
   $$("[data-about]").forEach((el) => (el.textContent = S.about[el.dataset.about]));
@@ -77,11 +79,12 @@
   chips.addEventListener("click", (e) => { const b = e.target.closest(".chip"); if (b) { show(b.dataset.id); goal("occasion_" + b.dataset.id); } });
   $("[data-grid]").addEventListener("click", (e) => { const b = e.target.closest("[data-want]"); if (b) open(current.works[+b.dataset.want]); });
   $("[data-own]").onclick = () => open(null);
+  $("[data-extras]").addEventListener("click", (e) => { const b = e.target.closest("[data-extra]"); if (b) open(null, S.extras[+b.dataset.extra].t); });
   show(current.id);
 
   // ---------- Варианты оформления (демо) ----------
   const SW = { // цвета кружков в переключателе: фон, глазурь, тесто
-    classic: ["#FFFCF8", "#FFF8F0", "#B9773A"], ny: ["#FBFDFF", "#FFFFFF", "#1F3B32"], valentine: ["#FFFAFA", "#F9C9D3", "#C4475E"],
+    classic: ["#FFFCF8", "#FFF8F0", "#B9773A"], school: ["#FFFCF9", "#FBE3D3", "#C2562C"], ny: ["#FBFDFF", "#FFFFFF", "#1F3B32"], valentine: ["#FFFAFA", "#F9C9D3", "#C4475E"],
     feb23: ["#FAFBFC", "#FFFFFF", "#22344A"], march8: ["#FFFDF5", "#FFE58A", "#C9930F"], easter: ["#FFFDFB", "#EADCF7", "#8E6FA8"]
   };
   const DECO = { snow: "❄", hearts: "♥", stars: "★", flowers: "✿", eggs: "" };
@@ -155,14 +158,15 @@
 
   // ---------- Окно заявки ----------
   const modal = $("[data-modal]"), form = $("[data-form]");
-  let work = null;
-  function open(w) {
-    work = w;
-    $("[data-m-occ]").textContent = current.title;
-    $("[data-m-title]").textContent = w ? w.title : "Своя идея";
-    const mk = !!current.mk;
-    form.querySelector("fieldset").hidden = mk;
-    form.qty.placeholder = mk ? "сколько детей" : "например, 30";
+  let work = null, extra = null;
+  function open(w, ex) {
+    work = w; extra = ex || null;
+    form.reset();
+    $("[data-m-occ]").textContent = extra ? "Дополнительно" : current.title;
+    $("[data-m-title]").textContent = extra ? extra : (w ? w.title : "Своя идея");
+    const mk = !extra && !!current.mk;
+    form.querySelector("[data-size]").hidden = mk;
+    form.qty.placeholder = mk ? "сколько человек" : "например, 30";
     modal.hidden = false; document.body.style.overflow = "hidden";
     goal("want_open");
   }
@@ -173,12 +177,12 @@
 
   function fmtDate(v) { if (!v) return ""; const [y, m, d] = v.split("-"); return `${d}.${m}.${y}`; }
   function message() {
-    const f = form, mk = !!current.mk, lines = [];
+    const f = form, mk = !extra && !!current.mk, lines = [];
     lines.push(`Здравствуйте, ${S.master}! Пишу с сайта.`);
-    lines.push(mk ? "Хочу мастер-класс по росписи пряников." : `Хочу заказать: ${current.title}${work ? ` — как «${work.title}»` : ", своя идея"}.`);
-    if (f.qty.value) lines.push(`${mk ? "Детей" : "Количество"}: ${f.qty.value}`);
-    if (f.date.value) lines.push(`${mk ? "Дата" : "К дате"}: ${fmtDate(f.date.value)}`);
-    if (!mk) lines.push(`Дизайн: ${f.design.value}`);
+    lines.push(extra ? `Хочу заказать: ${extra}.` : mk ? "Хочу мастеркласс по росписи пряников." : `Хочу заказать: ${current.title}${work ? `, как «${work.title}»` : ", своя идея"}.`);
+    if (f.qty.value) lines.push(`${mk ? "Участников" : "Количество"}: ${f.qty.value}`);
+    if (f.date.value) lines.push(`На когда: ${fmtDate(f.date.value)}`);
+    if (!mk && f.size.value.trim()) lines.push(`Размер и форма: ${f.size.value.trim()}`);
     if (f.note.value.trim()) lines.push(`Пожелания: ${f.note.value.trim()}`);
     if (src) lines.push(`(Откуда узнали: ${SRC_NAMES[src] || src})`);
     return lines.join("\n");
@@ -205,7 +209,7 @@
     const b = e.target.closest("[data-alt-go]"); if (!b) return;
     const item = alt.find((a) => a[0] === b.dataset.altGo);
     const ok = await copy(message()); goal("send_" + item[0]);
-    toast(ok ? "Текст заявки скопирован — вставьте его в чат" : "Не получилось скопировать, напишите своими словами");
+    toast(ok ? "Текст заявки скопирован, вставьте его в чат" : "Не получилось скопировать, напишите своими словами");
     setTimeout(() => window.open(item[2], "_blank", "noopener"), 600);
   });
 

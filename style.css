@@ -265,3 +265,24 @@ html[data-theme="easter"]{--hero-bg:#EEE6F6;--hero-ink:#3D3A2E;--hero-soft:#5F58
 .font-opt:hover{border-color:#cdbba6}
 .font-opt[aria-checked="true"]{border-color:#3a2a20;box-shadow:inset 0 0 0 1px #3a2a20}
 .themer-panel{max-height:calc(100vh - 90px);overflow:auto}
+
+/* Логотип без обводки (по просьбе Кати 18.10) */
+:root{--logo-border-w:0px}
+
+/* Дополнительные товары: простой список */
+.extras{margin-top:34px}
+.extras h3{font-family:var(--display);font-size:26px;margin-bottom:8px}
+.extras ul{list-style:none;margin:0;padding:0}
+.extras li{display:flex;align-items:center;gap:12px;padding:12px 0;border-bottom:1px solid var(--line)}
+.extras li span:first-child{flex:1;font-weight:500}
+.extra-p{color:var(--honey-d);font-family:var(--display);font-size:20px;white-space:nowrap}
+@media (max-width:480px){.extras li{flex-wrap:wrap}.extras li span:first-child{flex-basis:100%}}
+
+/* Состав */
+.ingredients{margin-top:22px;padding-top:4px}
+.ingredients p{margin:8px 0 0;color:var(--soft);font-size:15px;max-width:80ch}
+.ingredients b{color:var(--choc);font-weight:600}
+
+/* Школа: осенний клён и синие чернила */
+html[data-theme="school"]{--icing:#FFFCF9;--dough:#F3D2BC;--dough-2:#FBEADF;--honey:#C2562C;--honey-d:#9C4220;--choc:#2E3A59;--choc-2:#3D4C73;--soft:#5E6275;--line:#EED9CB;
+  --hero-bg:#FBE3D3;--hero-ink:#2E3A59;--hero-soft:#5A5E70;--hero-note:#9C4220}

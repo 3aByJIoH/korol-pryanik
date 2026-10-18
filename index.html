@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="robots" content="noindex,nofollow">
-<title>Королевский Пряник — пряники на заказ в Майкопе</title>
+<title>Королевский Пряник - пряники на заказ в Майкопе</title>
 <meta name="description" content="Пряники ручной росписи на заказ в Майкопе: свадебные с датой, с логотипом, наборы к праздникам, домики и мастер-классы для детей.">
 <script>/* оформление ставим до отрисовки, чтобы не мигал классический вариант */
 try{var t=new URLSearchParams(location.search).get("theme")||localStorage.getItem("kp-theme");if(t&&t!=="classic")document.documentElement.dataset.theme=t;var f=new URLSearchParams(location.search).get("font")||localStorage.getItem("kp-font");if(f)document.documentElement.dataset.font=f}catch(e){}</script>
@@ -12,7 +12,7 @@ try{var t=new URLSearchParams(location.search).get("theme")||localStorage.getIte
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Forum&family=Prata&family=Cormorant+Garamond:wght@500;600&family=Playfair+Display:wght@500&family=Kurale&family=Lobster&family=Golos+Text:wght@400;500;600&display=swap">
-<link rel="stylesheet" href="style.css?v=6">
+<link rel="stylesheet" href="style.css?v=7">
 </head>
 <body>
 <header class="top">
@@ -28,7 +28,7 @@ try{var t=new URLSearchParams(location.search).get("theme")||localStorage.getIte
       <p class="lead" data-hero="text"></p>
       <a class="btn" href="#works" data-hero="cta"></a>
     </div>
-    <div class="pryanik" role="img" aria-label="Логотип «Королевский Пряник» — пряничная мастерская">
+    <div class="pryanik" role="img" aria-label="Логотип «Королевский Пряник», пряничная мастерская">
       <img class="pryanik-logo" src="img/logo.jpg" alt="" width="560" height="560">
     </div>
   </section>
@@ -42,6 +42,10 @@ try{var t=new URLSearchParams(location.search).get("theme")||localStorage.getIte
     </div>
     <div class="grid" data-grid></div>
     <button class="btn btn-ghost wide" data-own>Хочу по своей идее</button>
+    <div class="extras">
+      <h3>Дополнительно</h3>
+      <ul data-extras></ul>
+    </div>
   </section>
 
   <section class="steps">
@@ -52,6 +56,7 @@ try{var t=new URLSearchParams(location.search).get("theme")||localStorage.getIte
   <section class="terms">
     <h2>Как получить заказ</h2>
     <dl data-terms></dl>
+    <div class="ingredients" data-ingredients></div>
   </section>
 
   <section class="about">
@@ -85,21 +90,18 @@ try{var t=new URLSearchParams(location.search).get("theme")||localStorage.getIte
       <label>Сколько штук
         <input type="number" name="qty" min="1" inputmode="numeric" placeholder="например, 30">
       </label>
-      <label>К какой дате
+      <label>На когда
         <input type="date" name="date">
       </label>
-      <fieldset>
-        <legend>Дизайн</legend>
-        <label class="radio"><input type="radio" name="design" value="как на фото" checked> Как на фото, с моей надписью</label>
-        <label class="radio"><input type="radio" name="design" value="пришлю свой образец"> Пришлю свой образец</label>
-        <label class="radio"><input type="radio" name="design" value="нужен новый дизайн"> Нужен новый дизайн</label>
-      </fieldset>
+      <label data-size>Размер и форма
+        <input type="text" name="size" placeholder="например, сердце 7 см">
+      </label>
       <label>Надпись или пожелания <span class="muted">(необязательно)</span>
         <textarea name="note" rows="2" placeholder="дата, имена, цвета…"></textarea>
       </label>
       <button class="btn wide" type="submit" data-send-wa>Отправить в WhatsApp</button>
       <div class="alt" data-alt></div>
-      <p class="muted small">Сайт ничего не сохраняет: заявка уходит сообщением из вашего мессенджера.</p>
+      <p class="muted small">Сайт ничего не сохраняет, заявка уходит сообщением из вашего мессенджера.</p>
     </form>
   </div>
 </div>
@@ -124,7 +126,7 @@ try{var t=new URLSearchParams(location.search).get("theme")||localStorage.getIte
   <div><button class="btn btn-sm btn-ghost" data-cookie-no>Только необходимые</button><button class="btn btn-sm" data-cookie-yes>Разрешить</button></div>
 </div>
 
-<script src="data.js?v=6"></script>
-<script src="app.js?v=6"></script>
+<script src="data.js?v=7"></script>
+<script src="app.js?v=7"></script>
 </body>
 </html>
