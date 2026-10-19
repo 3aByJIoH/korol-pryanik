@@ -77,6 +77,16 @@
     $("[data-occ-from]").textContent = current.from;
     const grid = $("[data-grid]");
     grid.classList.remove("swap"); void grid.offsetWidth; if (show.ready) grid.classList.add("swap"); show.ready = true;
+    if (current.bases) { // новая схема: вид пряника + выбор оформления
+      grid.innerHTML = current.bases.map((b, i) => `
+      <article class="card base-card" style="--i:${i}">
+        <div class="pic">${b.img ? `<img src="${b.img}" alt="${b.title}" loading="lazy">` : placeholder(b)}</div>
+        ${(b.v || []).length ? `<div class="variants" aria-label="Примеры оформления">${b.v.map((c) => `<span>${placeholder({ shape: b.shape, c })}</span>`).join("")}</div>` : ""}
+        <div class="body"><h3>${b.title}</h3><p class="base-sub">${b.sub}</p><p class="base-from">${b.from}</p>
+          <button class="btn" data-base="${i}">Выбрать оформление</button></div>
+      </article>`).join("");
+      return;
+    }
     grid.innerHTML = current.works.map((w, i) => `
       <article class="card" style="--i:${i}">
         <div class="pic">${w.img ? `<img src="${w.img}" alt="${w.title}" loading="lazy">` : placeholder(w)}</div>
@@ -85,7 +95,10 @@
       </article>`).join("");
   }
   chips.addEventListener("click", (e) => { const b = e.target.closest(".chip"); if (b && b.hasAttribute("data-custom")) { writeCustom(); return; } if (b) { show(b.dataset.id); goal("occasion_" + b.dataset.id); } });
-  $("[data-grid]").addEventListener("click", (e) => { const b = e.target.closest("[data-want]"); if (b) open(current.works[+b.dataset.want]); });
+  $("[data-grid]").addEventListener("click", (e) => {
+    const b = e.target.closest("[data-want]"); if (b) return open(current.works[+b.dataset.want]);
+    const k = e.target.closest("[data-base]"); if (k) open(current.bases[+k.dataset.base], null, true);
+  });
   $("[data-own]").onclick = () => (S.custom ? writeCustom() : open(null));
   $("[data-extras]").addEventListener("click", (e) => { const b = e.target.closest("[data-extra]"); if (b) open(null, S.extras[+b.dataset.extra].t); });
   show(current.id);
@@ -166,14 +179,16 @@
 
   // ---------- Окно заявки ----------
   const modal = $("[data-modal]"), form = $("[data-form]");
-  let work = null, extra = null;
-  function open(w, ex) {
-    work = w; extra = ex || null;
+  let work = null, extra = null, isBase = false;
+  function open(w, ex, base) {
+    work = w; extra = ex || null; isBase = !!base;
     form.reset();
     $("[data-m-occ]").textContent = extra ? "Дополнительно" : current.title;
     $("[data-m-title]").textContent = extra ? extra : (w ? w.title : "Своя идея");
     const mk = !extra && !!current.mk;
-    form.querySelector("[data-size]").hidden = mk;
+    form.querySelector("[data-size]").hidden = mk || isBase;
+    form.querySelector("[data-design]").hidden = !isBase;
+    const sub = $("[data-m-sub]"); sub.hidden = !isBase; sub.textContent = isBase ? `${w.sub}, ${w.from}` : "";
     form.qty.placeholder = mk ? "сколько человек" : "например, 30";
     modal.hidden = false; document.body.style.overflow = "hidden";
     goal("want_open");
@@ -187,9 +202,10 @@
   function message() {
     const f = form, mk = !extra && !!current.mk, lines = [];
     lines.push(`Здравствуйте, ${S.master}! Пишу с сайта.`);
-    lines.push(extra ? `Хочу заказать: ${extra}.` : mk ? "Хочу мастеркласс по росписи пряников." : `Хочу заказать: ${current.title}${work ? `, как «${work.title}»` : ", своя идея"}.`);
+    lines.push(extra ? `Хочу заказать: ${extra}.` : isBase ? `Хочу заказать: ${work.title} (${work.sub}), раздел «${current.title}».` : mk ? "Хочу мастеркласс по росписи пряников." : `Хочу заказать: ${current.title}${work ? `, как «${work.title}»` : ", своя идея"}.`);
     if (f.qty.value) lines.push(`${mk ? "Участников" : "Количество"}: ${f.qty.value}`);
     if (f.date.value) lines.push(`На когда: ${fmtDate(f.date.value)}`);
+    if (isBase) lines.push(`Оформление: ${f.design.value}${f.design.value.startsWith("у меня") ? " (образец пришлю в этом чате)" : ""}`);
     if (!mk && f.size.value.trim()) lines.push(`Размер и форма: ${f.size.value.trim()}`);
     if (f.note.value.trim()) lines.push(`Пожелания: ${f.note.value.trim()}`);
     if (src) lines.push(`(Откуда узнали: ${SRC_NAMES[src] || src})`);

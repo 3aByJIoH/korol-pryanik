@@ -12,7 +12,7 @@ try{var t=new URLSearchParams(location.search).get("theme")||localStorage.getIte
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Forum&family=Prata&family=Cormorant+Garamond:wght@500;600&family=Playfair+Display:wght@500&family=Kurale&family=Lobster&family=Golos+Text:wght@400;500;600&display=swap">
-<link rel="stylesheet" href="style.css?v=8">
+<link rel="stylesheet" href="style.css?v=9">
 </head>
 <body>
 <header class="top">
@@ -86,7 +86,14 @@ try{var t=new URLSearchParams(location.search).get("theme")||localStorage.getIte
     <button class="close" data-close aria-label="Закрыть">×</button>
     <p class="kicker" data-m-occ></p>
     <h3 id="m-title" data-m-title></h3>
+    <p class="m-sub" data-m-sub hidden></p>
     <form data-form>
+      <fieldset data-design hidden>
+        <legend>Оформление</legend>
+        <label class="radio"><input type="radio" name="design" value="подберите иллюстрацию" checked><span>Подберите мне иллюстрацию<small>пришлю 5-7 вариантов в WhatsApp</small></span></label>
+        <label class="radio"><input type="radio" name="design" value="у меня свой образец или логотип"><span>У меня свой образец или логотип<small>прикрепите картинку в чате</small></span></label>
+        <label class="radio"><input type="radio" name="design" value="нарисуйте по моей идее"><span>Нарисуйте по моей идее<small>опишите идею ниже</small></span></label>
+      </fieldset>
       <label>Сколько штук
         <input type="number" name="qty" min="1" inputmode="numeric" placeholder="например, 30">
       </label>
@@ -126,7 +133,7 @@ try{var t=new URLSearchParams(location.search).get("theme")||localStorage.getIte
   <div><button class="btn btn-sm btn-ghost" data-cookie-no>Только необходимые</button><button class="btn btn-sm" data-cookie-yes>Разрешить</button></div>
 </div>
 
-<script src="data.js?v=8"></script>
-<script src="app.js?v=8"></script>
+<script src="data.js?v=9"></script>
+<script src="app.js?v=9"></script>
 </body>
 </html>
