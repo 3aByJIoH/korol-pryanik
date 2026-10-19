@@ -61,8 +61,15 @@
   // ---------- Поводы и работы ----------
   let current = S.occasions[0];
   const chips = $("[data-chips]");
-  chips.innerHTML = S.occasions.map((o) => `<button class="chip" role="tab" data-id="${o.id}">${o.title}</button>`).join("") +
-    (S.custom ? `<button class="chip chip-custom" type="button" data-custom>${S.custom.title}</button>` : "");
+  // Категории — плитки: значок, название, цена «от»
+  const CAT_ICON = { holidays: ["ball", "#fbe9ef", "#c45a7b"], cake: ["circle", "#fdf0f3", "#c97a92"], logo: ["rect", "#eef0f4", "#45506b"],
+    wedding: ["heart", "#f6e7e1", "#c9a27a"], "3d": ["house", "#f3e3cc", "#9b6a3c"], guests: ["circle", "#fff7ea", "#c98a3a"],
+    selfpaint: ["egg", "#eef2ea", "#8aa07a"], coloring: ["rect", "#ffffff", "#c98a3a"], mk: ["tree", "#e6f0e3", "#4f7a45"] };
+  const catIcon = (id) => { const c = CAT_ICON[id] || ["circle", "#fbf3e6", "#c98a3a"]; return placeholder({ shape: c[0], c: [c[1], c[2]] }); };
+  chips.innerHTML = S.occasions.map((o) => `<button class="chip cat" role="tab" data-id="${o.id}">
+      <span class="cat-ic" aria-hidden="true">${catIcon(o.id)}</span><span class="cat-t">${o.title}</span><span class="cat-p">${o.from}</span></button>`).join("") +
+    (S.custom ? `<button class="chip cat chip-custom" type="button" data-custom>
+      <span class="cat-ic" aria-hidden="true">✎</span><span class="cat-t">${S.custom.title}</span><span class="cat-p">напишите мне</span></button>` : "");
   // «Своя идея»: сразу в WhatsApp, без списка работ
   function writeCustom() {
     const lines = [`Здравствуйте, ${S.master}! Пишу с сайта.`, S.custom.text];
@@ -97,7 +104,8 @@
           <button class="btn" data-want="${i}">${current.mk ? "Записаться" : "Хочу похожее"}</button></div>
       </article>`).join("");
   }
-  chips.addEventListener("click", (e) => { const b = e.target.closest(".chip"); if (b && b.hasAttribute("data-custom")) { writeCustom(); return; } if (b) { show(b.dataset.id); goal("occasion_" + b.dataset.id); } });
+  chips.addEventListener("click", (e) => { const b = e.target.closest(".chip"); if (b && b.hasAttribute("data-custom")) { writeCustom(); return; } if (b) { show(b.dataset.id); goal("occasion_" + b.dataset.id);
+    if (window.innerWidth < 760) $(".occasion-head").scrollIntoView({ behavior: "smooth", block: "start" }); } });
   $("[data-grid]").addEventListener("click", (e) => {
     const b = e.target.closest("[data-want]"); if (b) return open(current.works[+b.dataset.want]);
     const k = e.target.closest("[data-prod]"); if (k) open(current.products[+k.dataset.prod], null, true);
