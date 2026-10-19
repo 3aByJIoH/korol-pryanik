@@ -12,7 +12,7 @@ try{var t=new URLSearchParams(location.search).get("theme")||localStorage.getIte
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Forum&family=Prata&family=Cormorant+Garamond:wght@500;600&family=Playfair+Display:wght@500&family=Kurale&family=Lobster&family=Golos+Text:wght@400;500;600&display=swap">
-<link rel="stylesheet" href="style.css?v=11">
+<link rel="stylesheet" href="style.css?v=12">
 </head>
 <body>
 <header class="top">
@@ -88,6 +88,7 @@ try{var t=new URLSearchParams(location.search).get("theme")||localStorage.getIte
     <h3 id="m-title" data-m-title></h3>
     <p class="m-sub" data-m-sub hidden></p>
     <form data-form>
+      <div class="cfg" data-config hidden></div>
       <fieldset data-design hidden>
         <legend>Оформление</legend>
         <label class="radio"><input type="radio" name="design" value="подберите иллюстрацию" checked><span>Подберите мне иллюстрацию<small>пришлю 5-7 вариантов в WhatsApp</small></span></label>
@@ -106,6 +107,7 @@ try{var t=new URLSearchParams(location.search).get("theme")||localStorage.getIte
       <label>Надпись или пожелания <span class="muted">(необязательно)</span>
         <textarea name="note" rows="2" placeholder="дата, имена, цвета…"></textarea>
       </label>
+      <div class="estimate" data-estimate hidden></div>
       <button class="btn wide" type="submit" data-send-wa>Отправить в WhatsApp</button>
       <div class="alt" data-alt></div>
       <p class="muted small">Сайт ничего не сохраняет, заявка уходит сообщением из вашего мессенджера.</p>
@@ -133,7 +135,7 @@ try{var t=new URLSearchParams(location.search).get("theme")||localStorage.getIte
   <div><button class="btn btn-sm btn-ghost" data-cookie-no>Только необходимые</button><button class="btn btn-sm" data-cookie-yes>Разрешить</button></div>
 </div>
 
-<script src="data.js?v=11"></script>
-<script src="app.js?v=11"></script>
+<script src="data.js?v=12"></script>
+<script src="app.js?v=12"></script>
 </body>
 </html>

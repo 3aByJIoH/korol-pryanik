@@ -70,6 +70,8 @@
     goal("custom_wa");
     window.open(`https://wa.me/${S.contacts.whatsapp}?text=` + encodeURIComponent(lines.join(String.fromCharCode(10))), "_blank", "noopener");
   }
+  const fmtP = (n) => n.toLocaleString("ru-RU");
+  const minPrice = (p) => Math.min(...p.shapes.flatMap((x) => x.sizes.map((z) => z.p)));
   function show(id) {
     current = S.occasions.find((o) => o.id === id) || S.occasions[0];
     $$(".chip", chips).forEach((c) => c.setAttribute("aria-selected", c.dataset.id === current.id));
@@ -77,13 +79,14 @@
     $("[data-occ-from]").textContent = current.from;
     const grid = $("[data-grid]");
     grid.classList.remove("swap"); void grid.offsetWidth; if (show.ready) grid.classList.add("swap"); show.ready = true;
-    if (current.bases) { // новая схема: вид пряника + выбор оформления
-      grid.innerHTML = current.bases.map((b, i) => `
-      <article class="card base-card" style="--i:${i}">
-        <div class="pic">${b.img ? `<img src="${b.img}" alt="${b.title}" loading="lazy">` : placeholder(b)}</div>
-        ${(b.v || []).length ? `<div class="variants" aria-label="Примеры оформления">${b.v.map((c) => `<span>${typeof c === "string" ? `<img src="${c}" alt="" loading="lazy">` : placeholder({ shape: b.shape, c })}</span>`).join("")}</div>` : ""}
-        <div class="body"><h3>${b.title}</h3><p class="base-sub">${b.sub}</p><p class="base-from">${b.from}</p>
-          <button class="btn" data-base="${i}">Выбрать оформление</button></div>
+    if (current.products) { // новая схема: товар -> настройка в окне
+      grid.innerHTML = current.products.map((p, i) => `
+      <article class="card prod-card" style="--i:${i}">
+        <div class="pic">${p.img ? `<img src="${p.img}" alt="${p.title}" loading="lazy">` : placeholder(p)}</div>
+        <div class="body"><h3>${p.title}</h3><p class="prod-desc">${p.desc}</p>
+          ${p.shapes.length > 1 ? `<p class="prod-opts">Формы: ${p.shapes.map((x) => x.name.toLowerCase()).join(", ")}</p>` : ""}
+          <p class="base-from">от ${fmtP(minPrice(p))} ₽ <small>${p.unit}</small></p>
+          <button class="btn" data-prod="${i}">Выбрать</button></div>
       </article>`).join("");
       return;
     }
@@ -97,7 +100,7 @@
   chips.addEventListener("click", (e) => { const b = e.target.closest(".chip"); if (b && b.hasAttribute("data-custom")) { writeCustom(); return; } if (b) { show(b.dataset.id); goal("occasion_" + b.dataset.id); } });
   $("[data-grid]").addEventListener("click", (e) => {
     const b = e.target.closest("[data-want]"); if (b) return open(current.works[+b.dataset.want]);
-    const k = e.target.closest("[data-base]"); if (k) open(current.bases[+k.dataset.base], null, true);
+    const k = e.target.closest("[data-prod]"); if (k) open(current.products[+k.dataset.prod], null, true);
   });
   $("[data-own]").onclick = () => (S.custom ? writeCustom() : open(null));
   $("[data-extras]").addEventListener("click", (e) => { const b = e.target.closest("[data-extra]"); if (b) open(null, S.extras[+b.dataset.extra].t); });
@@ -179,20 +182,54 @@
 
   // ---------- Окно заявки ----------
   const modal = $("[data-modal]"), form = $("[data-form]");
-  let work = null, extra = null, isBase = false;
+  let work = null, extra = null, isBase = false, cfg = { sh: 0, sz: 0, pk: 0 };
   function open(w, ex, base) {
-    work = w; extra = ex || null; isBase = !!base;
+    work = w; extra = ex || null; isBase = !!base; cfg = { sh: 0, sz: 0, pk: 0 };
     form.reset();
     $("[data-m-occ]").textContent = extra ? "Дополнительно" : current.title;
     $("[data-m-title]").textContent = extra ? extra : (w ? w.title : "Своя идея");
     const mk = !extra && !!current.mk;
     form.querySelector("[data-size]").hidden = mk || isBase;
     form.querySelector("[data-design]").hidden = !isBase;
-    const sub = $("[data-m-sub]"); sub.hidden = !isBase; sub.textContent = isBase ? `${w.sub}, ${w.from}` : "";
+    const sub = $("[data-m-sub]"); sub.hidden = !isBase; sub.textContent = isBase ? w.desc : "";
+    $("[data-config]").hidden = !isBase; $("[data-estimate]").hidden = !isBase;
+    if (isBase) { renderConfig(); estimate(); }
     form.qty.placeholder = mk ? "сколько человек" : "например, 30";
+    form.qty.closest("label").firstChild.textContent = isBase && w.unit === "за набор" ? "Сколько наборов\n" : "Сколько штук\n";
     modal.hidden = false; document.body.style.overflow = "hidden";
     goal("want_open");
   }
+  // Настройка товара: форма, размер, упаковка, примерная сумма
+  function renderConfig() {
+    const p = work, sh = p.shapes[cfg.sh];
+    let h = "";
+    if (p.shapes.length > 1) h += `<div class="cfg-group"><span class="cfg-label">Форма</span><div class="cfg-pills">${p.shapes.map((x, i) =>
+      `<button type="button" class="pill" data-sh="${i}" aria-pressed="${i === cfg.sh}">${x.name}</button>`).join("")}</div></div>`;
+    h += `<div class="cfg-group"><span class="cfg-label">${p.sizeLabel || "Размер"}</span><div class="cfg-pills">${sh.sizes.map((z, i) =>
+      `<button type="button" class="pill" data-sz="${i}" aria-pressed="${i === cfg.sz}">${z.s}<small>${fmtP(z.p)} ₽</small></button>`).join("")}</div></div>`;
+    h += p.packs.length > 1
+      ? `<div class="cfg-group"><span class="cfg-label">Упаковка</span><div class="cfg-pills">${p.packs.map((k, i) =>
+        `<button type="button" class="pill" data-pk="${i}" aria-pressed="${i === cfg.pk}">${k.n}<small>${k.p ? "+" + fmtP(k.p) + " ₽" : "бесплатно"}</small></button>`).join("")}</div></div>`
+      : `<p class="cfg-note">${p.packs[0].n}</p>`;
+    $("[data-config]").innerHTML = h;
+  }
+  function estimate() {
+    if (!isBase) return;
+    const sh = work.shapes[cfg.sh], sz = sh.sizes[cfg.sz], pk = work.packs[cfg.pk], unit = sz.p + pk.p;
+    const q = +form.qty.value || 0, el = $("[data-estimate]");
+    const low = work.min && q && q < work.min ? `<span class="est-warn">Минимальный заказ ${work.min} штук</span>` : "";
+    el.innerHTML = q
+      ? `<b>Примерно: ${fmtP(q)} × ${fmtP(unit)} ₽ = ${fmtP(q * unit)} ₽</b>${low}<small>Сумма примерная, точную назову в чате.</small>`
+      : `<b>${fmtP(unit)} ₽ ${work.unit}</b><small>Укажите количество, и я посчитаю сумму.</small>`;
+  }
+  $("[data-config]").addEventListener("click", (e) => {
+    const b = e.target.closest(".pill"); if (!b) return;
+    if (b.dataset.sh != null) { cfg.sh = +b.dataset.sh; cfg.sz = 0; }
+    if (b.dataset.sz != null) cfg.sz = +b.dataset.sz;
+    if (b.dataset.pk != null) cfg.pk = +b.dataset.pk;
+    renderConfig(); estimate();
+  });
+  form.qty.addEventListener("input", estimate);
   function close() { modal.hidden = true; document.body.style.overflow = ""; }
   $("[data-close]").onclick = close;
   modal.addEventListener("click", (e) => { if (e.target === modal) close(); });
@@ -202,12 +239,19 @@
   function message() {
     const f = form, mk = !extra && !!current.mk, lines = [];
     lines.push(`Здравствуйте, ${S.master}! Пишу с сайта.`);
-    lines.push(extra ? `Хочу заказать: ${extra}.` : isBase ? `Хочу заказать: ${work.title} (${work.sub}), раздел «${current.title}».` : mk ? "Хочу мастеркласс по росписи пряников." : `Хочу заказать: ${current.title}${work ? `, как «${work.title}»` : ", своя идея"}.`);
+    lines.push(extra ? `Хочу заказать: ${extra}.` : isBase ? `Хочу заказать: ${work.title}.` : mk ? "Хочу мастеркласс по росписи пряников." : `Хочу заказать: ${current.title}${work ? `, как «${work.title}»` : ", своя идея"}.`);
+    if (isBase) {
+      const sh = work.shapes[cfg.sh], sz = sh.sizes[cfg.sz], pk = work.packs[cfg.pk];
+      lines.push(`${work.sizeLabel || "Форма и размер"}: ${work.shapes.length > 1 ? sh.name.toLowerCase() + ", " : ""}${sz.s}`);
+      if (work.packs.length > 1) lines.push(`Упаковка: ${pk.n.toLowerCase()}`);
+      lines.push(`Оформление: ${f.design.value}${f.design.value.startsWith("у меня") ? " (образец пришлю в этом чате)" : ""}`);
+    }
     if (f.qty.value) lines.push(`${mk ? "Участников" : "Количество"}: ${f.qty.value}`);
     if (f.date.value) lines.push(`На когда: ${fmtDate(f.date.value)}`);
-    if (isBase) lines.push(`Оформление: ${f.design.value}${f.design.value.startsWith("у меня") ? " (образец пришлю в этом чате)" : ""}`);
     if (!mk && f.size.value.trim()) lines.push(`Размер и форма: ${f.size.value.trim()}`);
     if (f.note.value.trim()) lines.push(`Пожелания: ${f.note.value.trim()}`);
+    if (isBase) { const sh = work.shapes[cfg.sh], sz = sh.sizes[cfg.sz], pk = work.packs[cfg.pk], q = +f.qty.value || 0;
+      if (q) lines.push(`Примерная сумма: ${fmtP(q * (sz.p + pk.p))} ₽`); }
     if (src) lines.push(`(Откуда узнали: ${SRC_NAMES[src] || src})`);
     return lines.join("\n");
   }
