@@ -300,3 +300,5 @@ html[data-theme="school"]{--icing:#FFFCF9;--dough:#F3D2BC;--dough-2:#FBEADF;--ho
 .m-sub{margin:-8px 0 14px;color:var(--soft);font-size:15px}
 .radio span{display:flex;flex-direction:column;gap:2px}
 .radio small{color:var(--soft);font-size:13px;font-weight:400}
+.base-card .variants span{overflow:hidden}
+.base-card .variants img{width:100%;height:100%;object-fit:cover}

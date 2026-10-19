@@ -64,16 +64,17 @@ window.SITE = {
     {
       id: "holidays", title: "К праздникам", from: "от 140 ₽",
       lead: "Новый год, 1 сентября, 23 февраля, 8 Марта, Пасха, день рождения. Выберите пряник, а оформление подберём под ваш праздник.",
+      // Фото-заглушки: Unsplash (бесплатная лицензия Unsplash), показываются по ссылке, заменим на фото Кати.
       // ПРИМЕР новой схемы «вид пряника + оформление». Цены из прайса прошлого года, уточнить у Кати.
       bases: [
-        { title: "Пряник-открытка с вашей надписью", sub: "круг 8 см или квадрат 7,5 см, в пакетике", from: "от 140 ₽",
-          shape: "circle", c: ["#fbf3e6", "#c7a04e"], v: [["#e8eef5", "#6f8fb3"], ["#fbe9ef", "#c45a7b"], ["#e9eee6", "#55704a"]] },
-        { title: "Пряник в подарочной коробочке", sub: "квадрат 7,5 см, коробочка", from: "от 190 ₽",
-          shape: "rect", c: ["#f3e3cc", "#9b6a3c"], v: [["#fff4e0", "#d9822b"], ["#eef0f4", "#45506b"], ["#f3e6ee", "#b56d8c"]] },
-        { title: "Набор из 3 пряников", sub: "в коробке, цвет набора любой", from: "от 850 ₽",
-          shape: "box", c: ["#e8eef5", "#6f8fb3"], v: [["#fdf0f3", "#c97a92"], ["#e6f0e3", "#4f7a45"], ["#fbf3e6", "#c7a04e"]] },
-        { title: "Фигурный пряник", sub: "10-11 см, по форме картинки: ёлка, сердце, цифра", from: "от 200 ₽",
-          shape: "tree", c: ["#e6f0e3", "#4f7a45"], v: [["#fbe9ef", "#c45a7b"], ["#fdf3e1", "#d28f3c"], ["#e8eef5", "#6f8fb3"]] }
+        { title: "Пряник-открытка с вашей надписью", img: "https://images.unsplash.com/photo-1573504286795-36a4a38c52a9?w=600&h=600&fit=crop&auto=format&q=70", sub: "круг 8 см или квадрат 7,5 см, в пакетике", from: "от 140 ₽",
+          shape: "circle", c: ["#fbf3e6", "#c7a04e"], v: ["https://images.unsplash.com/photo-1773608655311-081106bb7882?w=200&h=200&fit=crop&auto=format&q=70", "https://images.unsplash.com/photo-1638461802114-5572b255193c?w=200&h=200&fit=crop&auto=format&q=70", "https://images.unsplash.com/photo-1561151795-3ec3e5449b62?w=200&h=200&fit=crop&auto=format&q=70"] },
+        { title: "Пряник в подарочной коробочке", img: "https://images.unsplash.com/photo-1766512437476-448330cc1981?w=600&h=600&fit=crop&auto=format&q=70", sub: "квадрат 7,5 см, коробочка", from: "от 190 ₽",
+          shape: "rect", c: ["#f3e3cc", "#9b6a3c"], v: ["https://images.unsplash.com/photo-1692624015733-dc7de1df64a5?w=200&h=200&fit=crop&auto=format&q=70", "https://images.unsplash.com/photo-1693464323440-e2d55f520411?w=200&h=200&fit=crop&auto=format&q=70", "https://images.unsplash.com/photo-1579795378916-f72e281b2ea3?w=200&h=200&fit=crop&auto=format&q=70"] },
+        { title: "Набор из 3 пряников", img: "https://images.unsplash.com/photo-1692624015733-dc7de1df64a5?w=600&h=600&fit=crop&auto=format&q=70", sub: "в коробке, цвет набора любой", from: "от 850 ₽",
+          shape: "box", c: ["#e8eef5", "#6f8fb3"], v: ["https://images.unsplash.com/photo-1766512437476-448330cc1981?w=200&h=200&fit=crop&auto=format&q=70", "https://images.unsplash.com/photo-1693464323440-e2d55f520411?w=200&h=200&fit=crop&auto=format&q=70", "https://images.unsplash.com/photo-1581841203583-664ec0eb857b?w=200&h=200&fit=crop&auto=format&q=70"] },
+        { title: "Фигурный пряник", img: "https://images.unsplash.com/photo-1642511842792-993e9b8cd0f8?w=600&h=600&fit=crop&auto=format&q=70", sub: "10-11 см, по форме картинки: ёлка, сердце, цифра", from: "от 200 ₽",
+          shape: "tree", c: ["#e6f0e3", "#4f7a45"], v: ["https://images.unsplash.com/photo-1614034201480-bb46b1d1b05d?w=200&h=200&fit=crop&auto=format&q=70", "https://images.unsplash.com/photo-1676628537613-24eaacc35d86?w=200&h=200&fit=crop&auto=format&q=70", "https://images.unsplash.com/photo-1513863386503-ae0485b45afb?w=200&h=200&fit=crop&auto=format&q=70"] }
       ],
       works: [
         { title: "Набор «Зима», 3 пряника", shape: "rect", c: ["#e8eef5", "#6f8fb3"] },

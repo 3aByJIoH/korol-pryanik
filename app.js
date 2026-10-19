@@ -81,7 +81,7 @@
       grid.innerHTML = current.bases.map((b, i) => `
       <article class="card base-card" style="--i:${i}">
         <div class="pic">${b.img ? `<img src="${b.img}" alt="${b.title}" loading="lazy">` : placeholder(b)}</div>
-        ${(b.v || []).length ? `<div class="variants" aria-label="Примеры оформления">${b.v.map((c) => `<span>${placeholder({ shape: b.shape, c })}</span>`).join("")}</div>` : ""}
+        ${(b.v || []).length ? `<div class="variants" aria-label="Примеры оформления">${b.v.map((c) => `<span>${typeof c === "string" ? `<img src="${c}" alt="" loading="lazy">` : placeholder({ shape: b.shape, c })}</span>`).join("")}</div>` : ""}
         <div class="body"><h3>${b.title}</h3><p class="base-sub">${b.sub}</p><p class="base-from">${b.from}</p>
           <button class="btn" data-base="${i}">Выбрать оформление</button></div>
       </article>`).join("");
