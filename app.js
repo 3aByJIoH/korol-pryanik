@@ -61,7 +61,15 @@
   // ---------- Поводы и работы ----------
   let current = S.occasions[0];
   const chips = $("[data-chips]");
-  chips.innerHTML = S.occasions.map((o) => `<button class="chip" role="tab" data-id="${o.id}">${o.title}</button>`).join("");
+  chips.innerHTML = S.occasions.map((o) => `<button class="chip" role="tab" data-id="${o.id}">${o.title}</button>`).join("") +
+    (S.custom ? `<button class="chip chip-custom" type="button" data-custom>${S.custom.title}</button>` : "");
+  // «Своя идея»: сразу в WhatsApp, без списка работ
+  function writeCustom() {
+    const lines = [`Здравствуйте, ${S.master}! Пишу с сайта.`, S.custom.text];
+    if (src) lines.push(`(Откуда узнали: ${SRC_NAMES[src] || src})`);
+    goal("custom_wa");
+    window.open(`https://wa.me/${S.contacts.whatsapp}?text=` + encodeURIComponent(lines.join(String.fromCharCode(10))), "_blank", "noopener");
+  }
   function show(id) {
     current = S.occasions.find((o) => o.id === id) || S.occasions[0];
     $$(".chip", chips).forEach((c) => c.setAttribute("aria-selected", c.dataset.id === current.id));
@@ -76,9 +84,9 @@
           <button class="btn" data-want="${i}">${current.mk ? "Записаться" : "Хочу похожее"}</button></div>
       </article>`).join("");
   }
-  chips.addEventListener("click", (e) => { const b = e.target.closest(".chip"); if (b) { show(b.dataset.id); goal("occasion_" + b.dataset.id); } });
+  chips.addEventListener("click", (e) => { const b = e.target.closest(".chip"); if (b && b.hasAttribute("data-custom")) { writeCustom(); return; } if (b) { show(b.dataset.id); goal("occasion_" + b.dataset.id); } });
   $("[data-grid]").addEventListener("click", (e) => { const b = e.target.closest("[data-want]"); if (b) open(current.works[+b.dataset.want]); });
-  $("[data-own]").onclick = () => open(null);
+  $("[data-own]").onclick = () => (S.custom ? writeCustom() : open(null));
   $("[data-extras]").addEventListener("click", (e) => { const b = e.target.closest("[data-extra]"); if (b) open(null, S.extras[+b.dataset.extra].t); });
   show(current.id);
 
