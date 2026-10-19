@@ -319,3 +319,8 @@ html[data-theme="school"]{--icing:#FFFCF9;--dough:#F3D2BC;--dough-2:#FBEADF;--ho
 .estimate b{font:400 22px/1.2 var(--display);color:var(--choc)}
 .estimate small{color:var(--soft);font-size:13px}
 .est-warn{color:#A33A2A;font-size:14px;font-weight:600}
+
+/* Категории: переносятся на новые строки, всё видно сразу (вместо прокрутки вбок) */
+.chips{flex-wrap:wrap;overflow:visible;margin:0 0 20px;padding:0;gap:8px 8px}
+.chip{padding:10px 16px}
+@media (max-width:560px){.chips{gap:6px}.chip{padding:8px 12px;font-size:14px}}
