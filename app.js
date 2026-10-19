@@ -78,7 +78,9 @@
     window.open(`https://wa.me/${S.contacts.whatsapp}?text=` + encodeURIComponent(lines.join(String.fromCharCode(10))), "_blank", "noopener");
   }
   const fmtP = (n) => n.toLocaleString("ru-RU");
-  const minPrice = (p) => Math.min(...p.shapes.flatMap((x) => x.sizes.map((z) => z.p)));
+  // Цена null = «по запросу»: в минимуме не участвует
+  const minPrice = (p) => { const a = p.shapes.flatMap((x) => x.sizes.map((z) => z.p)).filter((v) => v != null); return a.length ? Math.min(...a) : null; };
+  const fromText = (p) => { const m = minPrice(p); return m == null ? "цена по запросу" : `от ${fmtP(m)} ₽ <small>${p.unit}</small>`; };
   function show(id) {
     current = S.occasions.find((o) => o.id === id) || S.occasions[0];
     $$(".chip", chips).forEach((c) => c.setAttribute("aria-selected", c.dataset.id === current.id));
@@ -92,7 +94,7 @@
         <div class="pic">${p.img ? `<img src="${p.img}" alt="${p.title}" loading="lazy">` : placeholder(p)}</div>
         <div class="body"><h3>${p.title}</h3><p class="prod-desc">${p.desc}</p>
           ${p.shapes.length > 1 ? `<p class="prod-opts">Формы: ${p.shapes.map((x) => x.name.toLowerCase()).join(", ")}</p>` : ""}
-          <p class="base-from">от ${fmtP(minPrice(p))} ₽ <small>${p.unit}</small></p>
+          <p class="base-from">${fromText(p)}</p>
           <button class="btn" data-prod="${i}">Выбрать</button></div>
       </article>`).join("");
       return;
@@ -198,12 +200,12 @@
     $("[data-m-title]").textContent = extra ? extra : (w ? w.title : "Своя идея");
     const mk = !extra && !!current.mk;
     form.querySelector("[data-size]").hidden = mk || isBase;
-    form.querySelector("[data-design]").hidden = !isBase;
+    form.querySelector("[data-design]").hidden = !isBase || !!w.noDesign;
     const sub = $("[data-m-sub]"); sub.hidden = !isBase; sub.textContent = isBase ? w.desc : "";
     $("[data-config]").hidden = !isBase; $("[data-estimate]").hidden = !isBase;
     if (isBase) { renderConfig(); estimate(); }
     form.qty.placeholder = mk ? "сколько человек" : "например, 30";
-    form.qty.closest("label").firstChild.textContent = isBase && w.unit === "за набор" ? "Сколько наборов\n" : "Сколько штук\n";
+    form.qty.closest("label").firstChild.textContent = (isBase && w.qtyLabel) || (isBase && w.unit === "за набор" ? "Сколько наборов" : mk ? "Сколько человек" : "Сколько штук");
     modal.hidden = false; document.body.style.overflow = "hidden";
     goal("want_open");
   }
@@ -214,7 +216,7 @@
     if (p.shapes.length > 1) h += `<div class="cfg-group"><span class="cfg-label">Форма</span><div class="cfg-pills">${p.shapes.map((x, i) =>
       `<button type="button" class="pill" data-sh="${i}" aria-pressed="${i === cfg.sh}">${x.name}</button>`).join("")}</div></div>`;
     h += `<div class="cfg-group"><span class="cfg-label">${p.sizeLabel || "Размер"}</span><div class="cfg-pills">${sh.sizes.map((z, i) =>
-      `<button type="button" class="pill" data-sz="${i}" aria-pressed="${i === cfg.sz}">${z.s}<small>${fmtP(z.p)} ₽</small></button>`).join("")}</div></div>`;
+      `<button type="button" class="pill" data-sz="${i}" aria-pressed="${i === cfg.sz}">${z.s}<small>${z.p == null ? "по запросу" : fmtP(z.p) + " ₽"}</small></button>`).join("")}</div></div>`;
     h += p.packs.length > 1
       ? `<div class="cfg-group"><span class="cfg-label">Упаковка</span><div class="cfg-pills">${p.packs.map((k, i) =>
         `<button type="button" class="pill" data-pk="${i}" aria-pressed="${i === cfg.pk}">${k.n}<small>${k.p ? "+" + fmtP(k.p) + " ₽" : "бесплатно"}</small></button>`).join("")}</div></div>`
@@ -225,6 +227,7 @@
     if (!isBase) return;
     const sh = work.shapes[cfg.sh], sz = sh.sizes[cfg.sz], pk = work.packs[cfg.pk], unit = sz.p + pk.p;
     const q = +form.qty.value || 0, el = $("[data-estimate]");
+    if (sz.p == null) { el.innerHTML = `<b>Цена по запросу</b><small>Зависит от размера и наполнения, назову в чате.</small>`; return; }
     const low = work.min && q && q < work.min ? `<span class="est-warn">Минимальный заказ ${work.min} штук</span>` : "";
     el.innerHTML = q
       ? `<b>Примерно: ${fmtP(q)} × ${fmtP(unit)} ₽ = ${fmtP(q * unit)} ₽</b>${low}<small>Сумма примерная, точную назову в чате.</small>`
@@ -252,14 +255,14 @@
       const sh = work.shapes[cfg.sh], sz = sh.sizes[cfg.sz], pk = work.packs[cfg.pk];
       lines.push(`${work.sizeLabel || "Форма и размер"}: ${work.shapes.length > 1 ? sh.name.toLowerCase() + ", " : ""}${sz.s}`);
       if (work.packs.length > 1) lines.push(`Упаковка: ${pk.n.toLowerCase()}`);
-      lines.push(`Оформление: ${f.design.value}${f.design.value.startsWith("у меня") ? " (образец пришлю в этом чате)" : ""}`);
+      if (!work.noDesign) lines.push(`Оформление: ${f.design.value}${f.design.value.startsWith("у меня") ? " (образец пришлю в этом чате)" : ""}`);
     }
     if (f.qty.value) lines.push(`${mk ? "Участников" : "Количество"}: ${f.qty.value}`);
     if (f.date.value) lines.push(`На когда: ${fmtDate(f.date.value)}`);
     if (!mk && f.size.value.trim()) lines.push(`Размер и форма: ${f.size.value.trim()}`);
     if (f.note.value.trim()) lines.push(`Пожелания: ${f.note.value.trim()}`);
     if (isBase) { const sh = work.shapes[cfg.sh], sz = sh.sizes[cfg.sz], pk = work.packs[cfg.pk], q = +f.qty.value || 0;
-      if (q) lines.push(`Примерная сумма: ${fmtP(q * (sz.p + pk.p))} ₽`); }
+      if (q && sz.p != null) lines.push(`Примерная сумма: ${fmtP(q * (sz.p + pk.p))} ₽`); }
     if (src) lines.push(`(Откуда узнали: ${SRC_NAMES[src] || src})`);
     return lines.join("\n");
   }
