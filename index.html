@@ -91,10 +91,10 @@ try{var t=new URLSearchParams(location.search).get("theme")||localStorage.getIte
     <form data-form>
       <div class="cfg" data-config hidden></div>
       <fieldset data-design hidden>
-        <legend>Оформление</legend>
-        <label class="radio"><input type="radio" name="design" value="подберите иллюстрацию" checked><span>Подберите мне иллюстрацию<small>пришлю 5-7 вариантов в WhatsApp</small></span></label>
-        <label class="radio"><input type="radio" name="design" value="у меня свой образец или логотип"><span>У меня свой образец или логотип<small>прикрепите картинку в чате</small></span></label>
-        <label class="radio"><input type="radio" name="design" value="нарисуйте по моей идее"><span>Нарисуйте по моей идее<small>опишите идею ниже</small></span></label>
+        <legend>Рисунок</legend>
+        <label class="radio"><input type="radio" name="design" value="подберите готовую картинку и добавьте надпись" checked><span>Подберите готовую картинку<small>соберу простой макет: картинка и ваш текст</small></span></label>
+        <label class="radio"><input type="radio" name="design" value="у меня свой макет, картинка или логотип (пришлю в этом чате)"><span>У меня свой макет, картинка или логотип<small>пришлёте в чате</small></span></label>
+        <label class="radio"><input type="radio" name="design" value="только надпись, без картинки"><span>Только надпись<small>текст напишите ниже</small></span></label>
       </fieldset>
       <label>Сколько штук
         <input type="number" name="qty" min="1" inputmode="numeric" placeholder="например, 30">
@@ -136,7 +136,7 @@ try{var t=new URLSearchParams(location.search).get("theme")||localStorage.getIte
   <div><button class="btn btn-sm btn-ghost" data-cookie-no>Только необходимые</button><button class="btn btn-sm" data-cookie-yes>Разрешить</button></div>
 </div>
 
-<script src="data.js?v=15"></script>
-<script src="app.js?v=15"></script>
+<script src="data.js?v=16"></script>
+<script src="app.js?v=16"></script>
 </body>
 </html>

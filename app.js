@@ -247,7 +247,25 @@
   document.addEventListener("keydown", (e) => { if (e.key === "Escape" && !modal.hidden) close(); });
 
   function fmtDate(v) { if (!v) return ""; const [y, m, d] = v.split("-"); return `${d}.${m}.${y}`; }
+  // Заявка по товару: в виде карточки заказа, как Катя пишет клиентам в WhatsApp
+  const UNIT_SHORT = { "за штуку": "шт", "за набор": "набор", "с человека": "чел" };
+  function orderCard() {
+    const f = form, sh = work.shapes[cfg.sh], sz = sh.sizes[cfg.sz], pk = work.packs[cfg.pk];
+    const u = UNIT_SHORT[work.unit] || "шт", q = +f.qty.value || 0, lines = [];
+    lines.push(`Здравствуйте, ${S.master}! Хочу сделать заказ с сайта.`, "", "Ваш заказ:");
+    lines.push(work.sizeLabel ? `${work.title}: ${sz.s}` : `${work.title}, ${work.shapes.length > 1 ? sh.name.toLowerCase() + " " : ""}${sz.s}`);
+    if (work.packs.length > 1) lines.push(`Упаковка: ${pk.n.toLowerCase()}`);
+    if (!work.noDesign) lines.push(`Рисунок: ${f.design.value}`);
+    if (q) lines.push(`${q} ${u === "набор" ? "наб." : u}`);
+    if (sz.p == null) lines.push("Цена: по запросу");
+    else { lines.push(`${fmtP(sz.p + pk.p)} р/${u}`); if (q) lines.push(`Сумма: примерно ${fmtP(q * (sz.p + pk.p))} р`); }
+    if (f.date.value) lines.push(`Нужно к: ${fmtDate(f.date.value)}`);
+    if (f.note.value.trim()) lines.push(`Пожелания: ${f.note.value.trim()}`);
+    if (src) lines.push("", `(Откуда узнали: ${SRC_NAMES[src] || src})`);
+    return lines.join("\n");
+  }
   function message() {
+    if (isBase) return orderCard();
     const f = form, mk = !extra && !!current.mk, lines = [];
     lines.push(`Здравствуйте, ${S.master}! Пишу с сайта.`);
     lines.push(extra ? `Хочу заказать: ${extra}.` : isBase ? `Хочу заказать: ${work.title}.` : mk ? "Хочу мастеркласс по росписи пряников." : `Хочу заказать: ${current.title}${work ? `, как «${work.title}»` : ", своя идея"}.`);
