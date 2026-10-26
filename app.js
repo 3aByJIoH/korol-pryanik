@@ -80,7 +80,8 @@
   const fmtP = (n) => n.toLocaleString("ru-RU");
   // Цена null = «по запросу»: в минимуме не участвует
   const minPrice = (p) => { const a = p.shapes.flatMap((x) => x.sizes.map((z) => z.p)).filter((v) => v != null); return a.length ? Math.min(...a) : null; };
-  const fromText = (p) => { const m = minPrice(p); return m == null ? "цена по запросу" : `от ${fmtP(m)} ₽ <small>${p.unit}</small>`; };
+  const minOf = (p) => p.noMin ? 0 : (p.min || (p.unit === "за штуку" ? S.minOrder || 0 : 0));
+  const fromText = (p) => { const m = minPrice(p); return m == null ? "цена по запросу" : `от ${fmtP(m)} ₽ <small>${p.unit}${minOf(p) ? `, заказ от ${minOf(p)} шт` : ""}</small>`; };
   function show(id) {
     current = S.occasions.find((o) => o.id === id) || S.occasions[0];
     $$(".chip", chips).forEach((c) => c.setAttribute("aria-selected", c.dataset.id === current.id));
@@ -204,7 +205,7 @@
     const sub = $("[data-m-sub]"); sub.hidden = !isBase; sub.textContent = isBase ? w.desc : "";
     $("[data-config]").hidden = !isBase; $("[data-estimate]").hidden = !isBase;
     if (isBase) { renderConfig(); estimate(); }
-    form.qty.placeholder = mk ? "сколько человек" : "например, 30";
+    form.qty.placeholder = mk ? "сколько человек" : isBase && minOf(w) ? `от ${minOf(w)}` : "например, 30";
     form.qty.closest("label").firstChild.textContent = (isBase && w.qtyLabel) || (isBase && w.unit === "за набор" ? "Сколько наборов" : mk ? "Сколько человек" : "Сколько штук");
     modal.hidden = false; document.body.style.overflow = "hidden";
     goal("want_open");
@@ -228,7 +229,7 @@
     const sh = work.shapes[cfg.sh], sz = sh.sizes[cfg.sz], pk = work.packs[cfg.pk], unit = sz.p + pk.p;
     const q = +form.qty.value || 0, el = $("[data-estimate]");
     if (sz.p == null) { el.innerHTML = `<b>Цена по запросу</b><small>Зависит от размера и наполнения, назову в чате.</small>`; return; }
-    const low = work.min && q && q < work.min ? `<span class="est-warn">Минимальный заказ ${work.min} штук</span>` : "";
+    const mn = minOf(work), low = mn && q && q < mn ? `<span class="est-warn">Минимальный заказ ${mn} штук</span>` : "";
     el.innerHTML = q
       ? `<b>Примерно: ${fmtP(q)} × ${fmtP(unit)} ₽ = ${fmtP(q * unit)} ₽</b>${low}<small>Сумма примерная, точную назову в чате.</small>`
       : `<b>${fmtP(unit)} ₽ ${work.unit}</b><small>Укажите количество, и я посчитаю сумму.</small>`;
