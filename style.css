@@ -341,3 +341,16 @@ html[data-theme="school"]{--icing:#FFFCF9;--dough:#F3D2BC;--dough-2:#FBEADF;--ho
 .chip.cat.chip-custom{box-shadow:inset 0 0 0 1.5px var(--honey)}
 .chip.cat.chip-custom::before{content:none}
 @media (max-width:560px){.chips{grid-template-columns:1fr 1fr;gap:8px}.chip.cat{min-height:96px;padding:10px;font-size:14px}.cat-ic{width:34px;height:34px}.cat-ic svg{width:26px;height:26px}}
+
+/* Плитки категорий с превью фото */
+.chips{grid-template-columns:repeat(auto-fill,minmax(160px,1fr))}
+.chip.cat{padding:8px 8px 12px;min-height:0;gap:2px;overflow:hidden}
+.cat-pic{display:block;width:100%;aspect-ratio:4/3;border-radius:10px;overflow:hidden;margin-bottom:8px;background:var(--dough-2)}
+.cat-pic img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .5s cubic-bezier(.22,1,.36,1)}
+.chip.cat:hover .cat-pic img{transform:scale(1.05)}
+.cat-draw{width:100%;height:100%;display:flex;align-items:center;justify-content:center}
+.cat-draw svg{width:56%;height:auto}
+.cat-pen{display:flex;align-items:center;justify-content:center;font-size:32px;color:var(--honey-d)}
+.chip.cat .cat-t,.chip.cat .cat-p{padding:0 4px}
+@media (max-width:560px){.chips{grid-template-columns:1fr 1fr}.chip.cat{padding:6px 6px 10px}.cat-pic{margin-bottom:6px}}
+@media (prefers-reduced-motion:reduce){.cat-pic img{transition:none}.chip.cat:hover .cat-pic img{transform:none}}

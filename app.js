@@ -66,10 +66,14 @@
     wedding: ["heart", "#f6e7e1", "#c9a27a"], "3d": ["house", "#f3e3cc", "#9b6a3c"], guests: ["circle", "#fff7ea", "#c98a3a"],
     selfpaint: ["egg", "#eef2ea", "#8aa07a"], coloring: ["rect", "#ffffff", "#c98a3a"], mk: ["tree", "#e6f0e3", "#4f7a45"] };
   const catIcon = (id) => { const c = CAT_ICON[id] || ["circle", "#fbf3e6", "#c98a3a"]; return placeholder({ shape: c[0], c: [c[1], c[2]] }); };
+  // Превью категории: o.cover или первое фото товара; нет фото, рисованный пряник
+  const catCover = (o) => o.cover || ((o.products || []).find((x) => x.img) || {}).img;
+  const catPic = (o) => { const c = catCover(o); const ic = CAT_ICON[o.id] || ["circle", "#fbf3e6", "#c98a3a"];
+    return c ? `<img src="${c}" alt="" loading="lazy">` : `<span class="cat-draw" style="background:${ic[1]}">${catIcon(o.id)}</span>`; };
   chips.innerHTML = S.occasions.map((o) => `<button class="chip cat" role="tab" data-id="${o.id}">
-      <span class="cat-ic" aria-hidden="true">${catIcon(o.id)}</span><span class="cat-t">${o.title}</span><span class="cat-p">${o.from}</span></button>`).join("") +
+      <span class="cat-pic" aria-hidden="true">${catPic(o)}</span><span class="cat-t">${o.title}</span><span class="cat-p">${o.from}</span></button>`).join("") +
     (S.custom ? `<button class="chip cat chip-custom" type="button" data-custom>
-      <span class="cat-ic" aria-hidden="true">✎</span><span class="cat-t">${S.custom.title}</span><span class="cat-p">напишите мне</span></button>` : "");
+      <span class="cat-pic cat-pen" aria-hidden="true">✎</span><span class="cat-t">${S.custom.title}</span><span class="cat-p">напишите мне</span></button>` : "");
   // «Своя идея»: сразу в WhatsApp, без списка работ
   function writeCustom() {
     const lines = [`Здравствуйте, ${S.master}! Пишу с сайта.`, S.custom.text];
