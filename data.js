@@ -70,7 +70,7 @@ window.SITE = {
       products: [
         { id: "logo-flat", title: "Пряник с логотипом", unit: "за штуку",
           desc: "Ваш логотип на круглом прянике или ёлочном шаре.",
-          img: "https://images.unsplash.com/photo-1513863386503-ae0485b45afb?w=600&h=600&fit=crop&auto=format&q=70",
+          img: "img/works/logo-circle.jpg",
           shapes: [
             { name: "Круг", sizes: [{ s: "7 см", p: 130 }, { s: "8 см", p: 140 }] },
             { name: "Ёлочный шар", sizes: [{ s: "7 см", p: 140 }, { s: "8 см", p: 150 }] }
@@ -78,7 +78,7 @@ window.SITE = {
           packs: [{ n: "Пакетик", p: 0 }, { n: "Коробочка", p: 50 }] },
         { id: "logo-shape", title: "Пряник по форме логотипа", unit: "за штуку",
           desc: "Пряник вырезаю по контуру вашего логотипа.",
-          img: "https://images.unsplash.com/photo-1561151795-3ec3e5449b62?w=600&h=600&fit=crop&auto=format&q=70",
+          shape: "rect",
           shapes: [{ name: "По форме логотипа", sizes: [{ s: "10 см", p: 200 }] }],
           packs: [{ n: "Пакетик", p: 0 }, { n: "Коробочка", p: 50 }] }
       ]
@@ -89,12 +89,12 @@ window.SITE = {
       products: [
         { id: "g-mini", title: "Мини-пряники", unit: "за штуку", min: 10,
           desc: "Маленькие пряники с рисунком или общей надписью. От 10 штук.",
-          img: "https://images.unsplash.com/photo-1579795378916-f72e281b2ea3?w=600&h=600&fit=crop&auto=format&q=70",
+          shape: "circle",
           shapes: [{ name: "Мини", sizes: [{ s: "5-8 см", p: 60 }] }],
           packs: [{ n: "Пакетик", p: 0 }, { n: "Коробочка", p: 80 }] },
         { id: "g-name", title: "Пряник-комплимент с именем", unit: "за штуку",
           desc: "Именной пряник каждому гостю, можно вместо карточки рассадки.",
-          img: "https://images.unsplash.com/photo-1573504286795-36a4a38c52a9?w=600&h=600&fit=crop&auto=format&q=70",
+          img: "img/works/guests-name.jpg",
           shapes: [{ name: "Круг", sizes: [{ s: "7 см", p: 130 }, { s: "8 см", p: 140 }] }],
           packs: [{ n: "Пакетик", p: 0 }, { n: "Коробочка", p: 50 }] }
       ]
@@ -105,7 +105,7 @@ window.SITE = {
       products: [
         { id: "wedding", title: "Свадебный пряник", unit: "за штуку",
           desc: "Комплимент гостям с датой и инициалами, в цветах вашей свадьбы.",
-          img: "https://images.unsplash.com/photo-1581841203583-664ec0eb857b?w=600&h=600&fit=crop&auto=format&q=70",
+          img: "img/works/wedding-heart.jpg",
           shapes: [
             { name: "Сердце", sizes: [{ s: "6 см", p: 110 }, { s: "7 см", p: 130 }, { s: "8 см", p: 140 }] },
             { name: "Круг", sizes: [{ s: "6 см", p: 110 }, { s: "7 см", p: 130 }, { s: "8 см", p: 140 }] },
@@ -118,11 +118,11 @@ window.SITE = {
       id: "holidays", title: "К праздникам", from: "от 110 ₽",
       lead: "Новый год, 1 сентября, 23 февраля, 8 Марта, Пасха, день рождения. Выберите пряник, а рисунок подберём под ваш праздник.",
       // ПРИМЕР новой схемы: товар -> форма и размер -> упаковка -> оформление, с примерной суммой.
-      // Цены из прайса Кати прошлого года, уточнить. Фото: заглушки Unsplash (бесплатная лицензия), заменим на её работы.
+      // Цены из прайса Кати прошлого года, уточнить. Фото: работы Кати (img/works); где фото нет, рисованная заглушка.
       products: [
         { id: "printed", title: "Пряник с картинкой и надписью", unit: "за штуку",
           desc: "Плоский пряник, на нём рисунок и ваш текст. Самый популярный.",
-          img: "https://images.unsplash.com/photo-1573504286795-36a4a38c52a9?w=600&h=600&fit=crop&auto=format&q=70",
+          img: "img/works/holiday-printed.jpg",
           shapes: [
             { name: "Круг", sizes: [{ s: "7 см", p: 130 }, { s: "8 см", p: 140 }] },
             { name: "Квадрат", sizes: [{ s: "7,5 см", p: 140 }] },
@@ -132,17 +132,17 @@ window.SITE = {
           packs: [{ n: "Пакетик", p: 0 }, { n: "Коробочка", p: 50 }] },
         { id: "figured", title: "Фигурный пряник", unit: "за штуку",
           desc: "Пряник по форме картинки: ёлка, буква, цифра, логотип.",
-          img: "https://images.unsplash.com/photo-1642511842792-993e9b8cd0f8?w=600&h=600&fit=crop&auto=format&q=70",
+          img: "img/works/holiday-donut.jpg",
           shapes: [{ name: "По форме картинки", sizes: [{ s: "10-11 см", p: 200 }] }],
           packs: [{ n: "Пакетик", p: 0 }, { n: "Коробочка", p: 50 }] },
         { id: "set", title: "Набор в подарочной коробке", unit: "за набор", sizeLabel: "Сколько пряников в наборе",
           desc: "Несколько пряников в одной коробке. Цвет набора любой.",
-          img: "https://images.unsplash.com/photo-1692624015733-dc7de1df64a5?w=600&h=600&fit=crop&auto=format&q=70",
+          img: "img/works/holiday-box.jpg",
           shapes: [{ name: "Набор", sizes: [{ s: "3 пряника", p: 850 }, { s: "4 пряника", p: 1100 }] }],
           packs: [{ n: "Коробка входит в цену", p: 0 }] },
         { id: "mini", title: "Мини-пряники", unit: "за штуку", min: 10,
           desc: "Маленькие пряники с рисунком, для гостей и комплиментов. От 10 штук.",
-          img: "https://images.unsplash.com/photo-1579795378916-f72e281b2ea3?w=600&h=600&fit=crop&auto=format&q=70",
+          shape: "circle",
           shapes: [{ name: "Мини", sizes: [{ s: "5-8 см", p: 60 }] }],
           packs: [{ n: "Пакетик", p: 0 }, { n: "Коробочка", p: 80 }] }
       ]
@@ -153,17 +153,17 @@ window.SITE = {
       products: [
         { id: "house", title: "Набор «Собери домик»", unit: "за набор", noDesign: true, sizeLabel: "Какой домик",
           desc: "Детали домика, глазурь для склейки и украшения. Собираете сами.",
-          img: "https://images.unsplash.com/photo-1676628537613-24eaacc35d86?w=600&h=600&fit=crop&auto=format&q=70",
+          shape: "house",
           shapes: [{ name: "Домик", sizes: [{ s: "Для взрослых", p: 900 }, { s: "С LED-свечой", p: 950 }, { s: "Детский, с глазурью и посыпкой", p: 1150 }] }],
           packs: [{ n: "Коробка входит в цену", p: 0 }] },
         { id: "tree", title: "Набор «Собери ёлочку»", unit: "за набор", noDesign: true,
           desc: "Ёлочка из пряничных звёзд, собирается в пирамидку.",
-          img: "https://images.unsplash.com/photo-1642511842792-993e9b8cd0f8?w=600&h=600&fit=crop&auto=format&q=70",
+          shape: "tree",
           shapes: [{ name: "Ёлочка", sizes: [{ s: "16 см, 17 деталей", p: 950 }] }],
           packs: [{ n: "Коробка входит в цену", p: 0 }] },
         { id: "box", title: "Сборная шкатулка", unit: "за штуку", noMin: true,
           desc: "Пряничная шкатулка, внутрь можно положить подарок. Размер и наполнение обсудим.",
-          img: "https://images.unsplash.com/photo-1693464323440-e2d55f520411?w=600&h=600&fit=crop&auto=format&q=70",
+          shape: "box",
           shapes: [{ name: "Шкатулка", sizes: [{ s: "по вашему запросу", p: null }] }],
           packs: [{ n: "Коробка входит в цену", p: 0 }] }
       ]
@@ -174,12 +174,12 @@ window.SITE = {
       products: [
         { id: "paint-set", title: "Набор для росписи", unit: "за набор", noDesign: true, sizeLabel: "Что в наборе",
           desc: "Пряники и глазурь в мешочках, расписываете сами.",
-          img: "https://images.unsplash.com/photo-1638461802114-5572b255193c?w=600&h=600&fit=crop&auto=format&q=70",
+          shape: "egg",
           shapes: [{ name: "Набор", sizes: [{ s: "3 пряника, 4 цвета глазури", p: 500 }, { s: "5 пряников, 6 цветов", p: 650 }] }],
           packs: [{ n: "Коробка входит в цену", p: 0 }] },
         { id: "decorate", title: "Набор «Укрась сам»", unit: "за набор", noDesign: true, sizeLabel: "Что в наборе",
           desc: "Пряники, глазурь и посыпки для украшения.",
-          img: "https://images.unsplash.com/photo-1692624015733-dc7de1df64a5?w=600&h=600&fit=crop&auto=format&q=70",
+          shape: "heart",
           shapes: [{ name: "Набор", sizes: [{ s: "4 больших и 4 мини-пряника", p: 650 }] }],
           packs: [{ n: "Коробка входит в цену", p: 0 }] }
       ]
@@ -190,7 +190,7 @@ window.SITE = {
       products: [
         { id: "coloring", title: "Пряник-раскраска", unit: "за штуку", sizeLabel: "Какой",
           desc: "Пряник с контуром рисунка, раскрашиваете пищевыми красками.",
-          img: "https://images.unsplash.com/photo-1561151795-3ec3e5449b62?w=600&h=600&fit=crop&auto=format&q=70",
+          shape: "rect",
           shapes: [{ name: "Раскраска", sizes: [{ s: "8,5×10,5 см", p: 250 }, { s: "Пасхальные яйца, 2 шт", p: 200 }] }],
           packs: [{ n: "Палитра и кисточка входят в цену", p: 0 }] }
       ]
@@ -203,7 +203,7 @@ window.SITE = {
         { id: "mk", title: "Мастеркласс по росписи пряников", unit: "с человека", sizeLabel: "Для кого",
           noDesign: true, qtyLabel: "Сколько человек",
           desc: "Привожу пряники, глазурь и всё нужное. Пряники забираете с собой.",
-          img: "https://images.unsplash.com/photo-1638461802114-5572b255193c?w=600&h=600&fit=crop&auto=format&q=70",
+          shape: "circle",
           shapes: [{ name: "Мастеркласс", sizes: [{ s: "Для детей", p: 650 }, { s: "Для взрослых", p: 650 }] }],
           packs: [{ n: "Пряники забираете с собой", p: 0 }] }
       ]
