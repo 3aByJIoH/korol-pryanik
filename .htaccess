@@ -3,11 +3,14 @@ DirectoryIndex index.html
 RewriteEngine On
 # www -> без www
 RewriteCond %{HTTP_HOST} ^www\.korolprian\.ru$ [NC]
-RewriteRule ^(.*)$ %{REQUEST_SCHEME}://korolprian.ru/$1 [R=301,L]
-# После выпуска SSL раскомментировать: http -> https
-# RewriteCond %{HTTPS} off
-# RewriteCond %{HTTP:X-Forwarded-Proto} !https
-# RewriteRule ^(.*)$ https://korolprian.ru/$1 [R=301,L]
+RewriteRule ^(.*)$ https://korolprian.ru/$1 [R=301,L]
+# http -> https
+RewriteCond %{HTTPS} off
+RewriteCond %{HTTP:X-Forwarded-Proto} !https
+RewriteRule ^(.*)$ https://korolprian.ru/$1 [R=301,L]
+# технический адрес хостинга -> домен
+RewriteCond %{HTTP_HOST} ^cw185359\.tw1\.ru$ [NC]
+RewriteRule ^(.*)$ https://korolprian.ru/$1 [R=301,L]
 <IfModule mod_expires.c>
   ExpiresActive On
   ExpiresByType image/jpeg "access plus 30 days"
